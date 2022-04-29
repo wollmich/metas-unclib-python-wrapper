@@ -1,4 +1,4 @@
-# Michael Wollensack METAS - 22.01.2019 - 01.02.2021
+# Michael Wollensack METAS - 22.01.2019 - 29.04.2022
 
 import os as _os
 import sys as _sys
@@ -44,6 +44,8 @@ from Metas.UncLib.LinProp import UncList as _LinPropUncList
 from Metas.UncLib.LinProp.Misc import Global as _LinPropGlobal
 from Metas.UncLib.LinProp.Ndims import RealUncLinAlg as _RealUncLinAlg
 from Metas.UncLib.LinProp.Ndims import ComplexUncLinAlg as _ComplexUncLinAlg
+from Metas.UncLib.LinProp.Ndims import RealUncNumLib as _RealUncNumLib
+from Metas.UncLib.LinProp.Ndims import ComplexUncNumLib as _ComplexUncNumLib
 from Metas.UncLib.LinProp import NumericalFunctionDelegate as _NumericalFunctionDelegate
 from Metas.UncLib.LinProp import UncNumerical as _UncNumerical
 from Metas.UncLib.LinProp import UnknownIdDecoderDelegate as _UnknownIdDecoderDelegate
@@ -743,6 +745,27 @@ class unumlib(object):
 		x2 = _asnetnarray(x, True)
 		y2 = _ComplexNumLib[_UncNumber].Ifft(x2)
 		y = _fromnetnarray(y2)
+		return y
+
+	@staticmethod
+	def dft(x):
+		if _UncNumber is not _LinPropUncNumber:
+			raise Exception("Dft supports only LinProp uncertainty objects")
+		realTimeDomainData = not iscomplexarray(np.asarray(x))
+		x2 = _asnetnarray(x, True)
+		y2 = _ComplexUncNumLib[_UncNumber].Dft(x2, realTimeDomainData)
+		y = _fromnetnarray(y2)
+		return y
+
+	@staticmethod
+	def idft(x, realTimeDomainData=False):
+		if _UncNumber is not _LinPropUncNumber:
+			raise Exception("Idft supports only LinProp uncertainty objects")
+		x2 = _asnetnarray(x, True)
+		y2 = _ComplexUncNumLib[_UncNumber].Idft(x2, realTimeDomainData)
+		y = _fromnetnarray(y2)
+		if realTimeDomainData:
+			y = umath.real(y)
 		return y
 
 	@staticmethod
