@@ -1,4 +1,4 @@
-# Michael Wollensack METAS - 22.01.2019 - 29.04.2022
+# Michael Wollensack METAS - 22.01.2019 - 10.05.2022
 
 import os as _os
 import sys as _sys
@@ -465,6 +465,18 @@ class umath(object):
 	@staticmethod
 	def phase(a, deg=False):
 		return umath.angle(a, deg)
+
+	@staticmethod
+	def ellipk(a):
+		if (iscomplex(a) | iscomplexarray(a)):
+			raise Exception("Input must be real")
+		return _fromnetobject(_asnetobject(a).Ellipk())
+
+	@staticmethod
+	def ellipe(a):
+		if (iscomplex(a) | iscomplexarray(a)):
+			raise Exception("Input must be real")
+		return _fromnetobject(_asnetobject(a).Ellipe())
 
 
 class ulinalg(object):
@@ -1144,6 +1156,11 @@ class ufloat(object):
 	def sign(self):
 		return self._d.Sign().Value
 
+	def ellipk(self):
+		return ufloat(self._d.Ellipk())
+
+	def ellipe(self):
+		return ufloat(self._d.Ellipe())
 
 class ucomplex(object):
 	def __init__(self, value, imag=0.0, covariance=None, id=None, desc=None):
