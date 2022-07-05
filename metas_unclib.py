@@ -1,4 +1,4 @@
-# Michael Wollensack METAS - 22.01.2019 - 10.05.2022
+# Michael Wollensack METAS - 22.01.2019 - 05.07.2022
 
 import os as _os
 import sys as _sys
@@ -25,7 +25,11 @@ from System.Windows.Forms import Form as _Form
 from System.Windows.Forms import DockStyle as _DockStyle
 from System.Drawing import Size as _Size
 from Metas.UncLib.Core import Number as _Number
+from Metas.UncLib.Core import Real as _Real
 from Metas.UncLib.Core import Complex as _Complex
+from Metas.UncLib.Core import Const2014 as _Const2014
+from Metas.UncLib.Core import Const2014_90 as _Const2014_90
+from Metas.UncLib.Core import Const2018 as _Const2018
 from Metas.UncLib.Core import Math as _Math
 from Metas.UncLib.Core import SplineBoundary
 from Metas.UncLib.Core.Ndims import RealNArray as _RealNArray
@@ -930,6 +934,8 @@ class ufloat(object):
 				self._d = _UncNumber(float(value))
 		elif type(value) is _UncNumber:
 			self._d = value
+		elif type(value) is _Real[_UncNumber]:
+			self._d = value.Item
 		elif type(value) is ufloat:
 			self._d = value._d
 		else:
@@ -1394,3 +1400,142 @@ class ucomplex(object):
 
 	def phase(self, deg=False):
 		return self.angle(deg)
+
+# Physical Constants CODATA 2014
+class const2014(object):
+	_const = _Const2014()
+	# Hyperfine transition frequency of Cs-133 / Hz
+	deltavCs = _const.deltavCs
+	# Speed of light in vacuum / (m/s)
+	c0 = _const.c0
+	# Vacuum magnetic permeability / (Vs/Am)
+	mu0 = _const.mu0
+	# Vacuum electric permittivity / (As/Vm)
+	ep0 = _const.ep0
+	# Luminous efficacy / (lm/W)
+	Kcd = _const.Kcd
+	# Molar mass _constant / (kg/mol)
+	Mu = _const.Mu
+
+# Physical Constants CODATA 2014
+class uconst2014(const2014):
+	_uconst = _Const2014[_UncNumber]()
+	# Newtonian constant of gravitation / (m^3/(kg*s^2))
+	G = ufloat(_uconst.G)
+	# Fine-structure constant
+	alpha = ufloat(_uconst.alpha)
+	# Rydberg constant / (1/m)
+	Ryd = ufloat(_uconst.Ryd)
+	# Proton-electron mass ratio
+	mpsme = ufloat(_uconst.mpsme)
+	# Avogadro constant / (1/mol)
+	Na = ufloat(_uconst.Na)
+	# Josephson constant / (Hz/V)
+	Kj = ufloat(_uconst.Kj)
+	# Boltzmann constant / (J/K)
+	k = ufloat(_uconst.k)
+	# von Klitzing constant / Ohm
+	Rk = ufloat(_uconst.Rk)
+	# Elementary charge / C
+	e = ufloat(_uconst.e)
+	# Planck constant / Js
+	h = ufloat(_uconst.h)
+	# Electron mass / kg
+	me = ufloat(_uconst.me)
+	# Proton mass / kg
+	mp = ufloat(_uconst.mp)
+	# Atomic mass constant / kg
+	u = ufloat(_uconst.u)
+	# Faraday constant / (C/mol)
+	F = ufloat(_uconst.F)
+	# Molar gas constant / (J/(mol*K))
+	R = ufloat(_uconst.R)
+	# Electron volt / J
+	eV = ufloat(_uconst.eV)
+
+# Physical Constants CODATA 2014 for Conventional Electrical Units 90
+class const2014_90(const2014):
+	_const90 = _Const2014_90()
+	# Conventional value of Josephson _constant / (Hz/V)
+	Kj = _const90.Kj
+	# Conventional value of von Klitzing _constant / Ohm
+	Rk = _const90.Rk
+	# Elementary charge / C
+	e = _const90.e
+	# Planck _constant / Js
+	h = _const90.h
+
+# Physical Constants CODATA 2014 for Conventional Electrical Units 90
+class uconst2014_90(const2014_90):
+	_uconst90 = _Const2014[_UncNumber]()
+	# Avogadro constant / (1/mol)
+	Na = ufloat(_uconst90.Na)
+	# Faraday constant / (C/mol)
+	F = ufloat(_uconst90.F)
+	# Boltzmann constant / (J/K)
+	k = ufloat(_uconst90.k)
+
+# Physical Constants CODATA 2018
+class const2018(object):
+	_const = _Const2018()
+	# Hyperfine transition frequency of Cs-133 / Hz
+	deltavCs = _const.deltavCs
+	# Speed of light in vacuum / (m/s)
+	c0 = _const.c0
+	# Planck _constant / Js
+	h = _const.h
+	# Elementary charge / C
+	e = _const.e
+	# Boltzmann _constant / (J/K)
+	k = _const.k
+	# Avogadro _constant / (1/mol)
+	Na = _const.Na
+	# Luminous efficacy / (lm/W)
+	Kcd = _const.Kcd
+	# Josephson _constant / (Hz/V)
+	Kj = _const.Kj
+	# von Klitzing _constant / Ohm
+	Rk = _const.Rk
+	# Faraday _constant / (C/mol)
+	F = _const.F
+	# Molar gas _constant / (J/(mol*K))
+	R = _const.R
+	# Electron volt / J
+	eV = _const.eV
+
+# Physical Constants CODATA 2018
+class uconst2018(const2018):
+	_uconst = _Const2018[_UncNumber]()
+	# Newtonian _uconstant of gravitation / (m^3/(kg*s^2))
+	G = ufloat(_uconst.G)
+	# Fine-structure _uconstant
+	alpha = ufloat(_uconst.alpha)
+	# Vacuum magnetic permeability / (Vs/Am)
+	mu0 = ufloat(_uconst.mu0)
+	# Vacuum electric permittivity / (As/Vm)
+	ep0 = ufloat(_uconst.ep0)
+	# Rydberg _uconstant / (1/m)
+	Ryd = ufloat(_uconst.Ryd)
+	# Electron mass / kg
+	me = ufloat(_uconst.me)
+	# Electron relative atomic mass
+	are = ufloat(_uconst.are)
+	# Proton relative atomic mass
+	arp = ufloat(_uconst.arp)
+	# Proton-electron mass ratio
+	mpsme = ufloat(_uconst.mpsme)
+	# Proton mass / kg
+	mp = ufloat(_uconst.mp)
+	# Atomic mass _uconstant / kg
+	u = ufloat(_uconst.u)
+	# Molar mass _uconstant / (kg/mol)
+	Mu = ufloat(_uconst.Mu)
+
+
+# Newest Physical Constants
+class const(const2018):
+	_v = 'CODATA 2018'
+
+# Newest Physical Constants
+class uconst(uconst2018):
+	_v = 'CODATA 2018'
