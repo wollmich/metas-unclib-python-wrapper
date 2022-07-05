@@ -1401,141 +1401,205 @@ class ucomplex(object):
 	def phase(self, deg=False):
 		return self.angle(deg)
 
-# Physical Constants CODATA 2014
+
 class const2014(object):
+	"Physical Constants CODATA 2014"
+
 	_const = _Const2014()
-	# Hyperfine transition frequency of Cs-133 / Hz
+
 	deltavCs = _const.deltavCs
-	# Speed of light in vacuum / (m/s)
+	"Hyperfine transition frequency of Cs-133 / Hz"
+
 	c0 = _const.c0
-	# Vacuum magnetic permeability / (Vs/Am)
+	"Speed of light in vacuum / (m/s)"
+
 	mu0 = _const.mu0
-	# Vacuum electric permittivity / (As/Vm)
+	"Vacuum magnetic permeability / (Vs/Am)"
+
 	ep0 = _const.ep0
-	# Luminous efficacy / (lm/W)
+	"Vacuum electric permittivity / (As/Vm)"
+
 	Kcd = _const.Kcd
-	# Molar mass _constant / (kg/mol)
+	"Luminous efficacy / (lm/W)"
+
 	Mu = _const.Mu
+	"Molar mass _constant / (kg/mol)"
 
-# Physical Constants CODATA 2014
 class uconst2014(const2014):
+	"Physical Constants CODATA 2014"
+
 	_uconst = _Const2014[_UncNumber]()
-	# Newtonian constant of gravitation / (m^3/(kg*s^2))
+
 	G = ufloat(_uconst.G)
-	# Fine-structure constant
+	"Newtonian constant of gravitation / (m^3/(kg*s^2))"
+
 	alpha = ufloat(_uconst.alpha)
-	# Rydberg constant / (1/m)
+	"Fine-structure constant"
+
 	Ryd = ufloat(_uconst.Ryd)
-	# Proton-electron mass ratio
+	"Rydberg constant / (1/m)"
+
 	mpsme = ufloat(_uconst.mpsme)
-	# Avogadro constant / (1/mol)
+	"Proton-electron mass ratio"
+
 	Na = ufloat(_uconst.Na)
-	# Josephson constant / (Hz/V)
+	"Avogadro constant / (1/mol)"
+
 	Kj = ufloat(_uconst.Kj)
-	# Boltzmann constant / (J/K)
+	"Josephson constant / (Hz/V)"
+
 	k = ufloat(_uconst.k)
-	# von Klitzing constant / Ohm
+	"Boltzmann constant / (J/K)"
+
 	Rk = ufloat(_uconst.Rk)
-	# Elementary charge / C
+	"von Klitzing constant / Ohm"
+
 	e = ufloat(_uconst.e)
-	# Planck constant / Js
+	"Elementary charge / C"
+
 	h = ufloat(_uconst.h)
-	# Electron mass / kg
+	"Planck constant / Js"
+
 	me = ufloat(_uconst.me)
-	# Proton mass / kg
+	"Electron mass / kg"
+
 	mp = ufloat(_uconst.mp)
-	# Atomic mass constant / kg
+	"Proton mass / kg"
+
 	u = ufloat(_uconst.u)
-	# Faraday constant / (C/mol)
+	"Atomic mass constant / kg"
+
 	F = ufloat(_uconst.F)
-	# Molar gas constant / (J/(mol*K))
+	"Faraday constant / (C/mol)"
+
 	R = ufloat(_uconst.R)
-	# Electron volt / J
+	"Molar gas constant / (J/(mol*K))"
+
 	eV = ufloat(_uconst.eV)
+	"Electron volt / J"
 
-# Physical Constants CODATA 2014 for Conventional Electrical Units 90
+
 class const2014_90(const2014):
+	"Physical Constants CODATA 2014 for Conventional Electrical Units 90"
+
 	_const90 = _Const2014_90()
-	# Conventional value of Josephson _constant / (Hz/V)
+
 	Kj = _const90.Kj
-	# Conventional value of von Klitzing _constant / Ohm
+	"Conventional value of Josephson _constant / (Hz/V)"
+
 	Rk = _const90.Rk
-	# Elementary charge / C
+	"Conventional value of von Klitzing _constant / Ohm"
+
 	e = _const90.e
-	# Planck _constant / Js
+	"Elementary charge / C"
+
 	h = _const90.h
+	"Planck _constant / Js"
 
-# Physical Constants CODATA 2014 for Conventional Electrical Units 90
 class uconst2014_90(const2014_90):
+	"Physical Constants CODATA 2014 for Conventional Electrical Units 90"
+
 	_uconst90 = _Const2014[_UncNumber]()
-	# Avogadro constant / (1/mol)
+	
 	Na = ufloat(_uconst90.Na)
-	# Faraday constant / (C/mol)
+	"Avogadro constant / (1/mol)"
+
 	F = ufloat(_uconst90.F)
-	# Boltzmann constant / (J/K)
+	"Faraday constant / (C/mol)"
+
 	k = ufloat(_uconst90.k)
+	"Boltzmann constant / (J/K)"
 
-# Physical Constants CODATA 2018
+
 class const2018(object):
+	"Physical Constants CODATA 2018"
+
 	_const = _Const2018()
-	# Hyperfine transition frequency of Cs-133 / Hz
+
 	deltavCs = _const.deltavCs
-	# Speed of light in vacuum / (m/s)
+	"Hyperfine transition frequency of Cs-133 / Hz"
+
 	c0 = _const.c0
-	# Planck _constant / Js
+	"Speed of light in vacuum / (m/s)"
+
 	h = _const.h
-	# Elementary charge / C
+	"Planck _constant / Js"
+
 	e = _const.e
-	# Boltzmann _constant / (J/K)
+	"Elementary charge / C"
+
 	k = _const.k
-	# Avogadro _constant / (1/mol)
+	"Boltzmann _constant / (J/K)"
+
 	Na = _const.Na
-	# Luminous efficacy / (lm/W)
+	"Avogadro _constant / (1/mol)"
+
 	Kcd = _const.Kcd
-	# Josephson _constant / (Hz/V)
+	"Luminous efficacy / (lm/W)"
+
 	Kj = _const.Kj
-	# von Klitzing _constant / Ohm
+	"Josephson _constant / (Hz/V)"
+
 	Rk = _const.Rk
-	# Faraday _constant / (C/mol)
+	"von Klitzing _constant / Ohm"
+
 	F = _const.F
-	# Molar gas _constant / (J/(mol*K))
+	"Faraday _constant / (C/mol)"
+
 	R = _const.R
-	# Electron volt / J
+	"Molar gas _constant / (J/(mol*K))"
+
 	eV = _const.eV
+	"Electron volt / J"
 
-# Physical Constants CODATA 2018
 class uconst2018(const2018):
+	"Physical Constants CODATA 2018"
+
 	_uconst = _Const2018[_UncNumber]()
-	# Newtonian _uconstant of gravitation / (m^3/(kg*s^2))
+
 	G = ufloat(_uconst.G)
-	# Fine-structure _uconstant
+	"Newtonian _uconstant of gravitation / (m^3/(kg*s^2))"
+
 	alpha = ufloat(_uconst.alpha)
-	# Vacuum magnetic permeability / (Vs/Am)
+	"Fine-structure _uconstant"
+
 	mu0 = ufloat(_uconst.mu0)
-	# Vacuum electric permittivity / (As/Vm)
+	"Vacuum magnetic permeability / (Vs/Am)"
+
 	ep0 = ufloat(_uconst.ep0)
-	# Rydberg _uconstant / (1/m)
+	"Vacuum electric permittivity / (As/Vm)"
+
 	Ryd = ufloat(_uconst.Ryd)
-	# Electron mass / kg
+	"Rydberg _uconstant / (1/m)"
+
 	me = ufloat(_uconst.me)
-	# Electron relative atomic mass
+	"Electron mass / kg"
+
 	are = ufloat(_uconst.are)
-	# Proton relative atomic mass
+	"Electron relative atomic mass"
+
 	arp = ufloat(_uconst.arp)
-	# Proton-electron mass ratio
+	"Proton relative atomic mass"
+
 	mpsme = ufloat(_uconst.mpsme)
-	# Proton mass / kg
+	"Proton-electron mass ratio"
+
 	mp = ufloat(_uconst.mp)
-	# Atomic mass _uconstant / kg
+	"Proton mass / kg"
+
 	u = ufloat(_uconst.u)
-	# Molar mass _uconstant / (kg/mol)
+	"Atomic mass _uconstant / kg"
+
 	Mu = ufloat(_uconst.Mu)
+	"Molar mass _uconstant / (kg/mol)"
 
 
-# Newest Physical Constants
 class const(const2018):
+	"Newest Physical Constants"
+
 	_v = 'CODATA 2018'
 
-# Newest Physical Constants
 class uconst(uconst2018):
+	"Newest Physical Constants"
+
 	_v = 'CODATA 2018'
