@@ -1,4 +1,4 @@
-# Michael Wollensack METAS - 22.01.2019 - 05.07.2022
+# Michael Wollensack METAS - 22.01.2019 - 06.07.2022
 
 import os as _os
 import sys as _sys
@@ -1405,201 +1405,319 @@ class ucomplex(object):
 class const2014(object):
 	"Physical Constants CODATA 2014"
 
-	_const = _Const2014()
+	def __init__(self):
+		self._const = _Const2014()
 
-	deltavCs = _const.deltavCs
-	"Hyperfine transition frequency of Cs-133 / Hz"
+	@property
+	def deltavCs(self):
+		"Hyperfine transition frequency of Cs-133 / Hz"
+		return self._const.deltavCs
 
-	c0 = _const.c0
-	"Speed of light in vacuum / (m/s)"
+	@property
+	def c0(self):
+		"Speed of light in vacuum / (m/s)"
+		return self._const.c0
 
-	mu0 = _const.mu0
-	"Vacuum magnetic permeability / (Vs/Am)"
+	@property
+	def mu0(self):
+		"Vacuum magnetic permeability / (Vs/Am)"
+		return self._const.mu0
 
-	ep0 = _const.ep0
-	"Vacuum electric permittivity / (As/Vm)"
+	@property
+	def ep0(self):
+		"Vacuum electric permittivity / (As/Vm)"
+		return self._const.ep0
 
-	Kcd = _const.Kcd
-	"Luminous efficacy / (lm/W)"
+	@property
+	def Kcd(self):
+		"Luminous efficacy / (lm/W)"
+		return self._const.Kcd
 
-	Mu = _const.Mu
-	"Molar mass _constant / (kg/mol)"
+	@property
+	def Mu(self):
+		"Molar mass _constant / (kg/mol)"
+		return self._const.Mu
 
 class uconst2014(const2014):
 	"Physical Constants CODATA 2014"
 
-	_uconst = _Const2014[_UncNumber]()
+	def __init__(self):
+		self._uconst = _Const2014[_UncNumber]()
+		super().__init__()
 
-	G = ufloat(_uconst.G)
-	"Newtonian constant of gravitation / (m^3/(kg*s^2))"
+	@property
+	def G(self):
+		"Newtonian constant of gravitation / (m^3/(kg*s^2))"
+		return ufloat(self._uconst.G)
 
-	alpha = ufloat(_uconst.alpha)
-	"Fine-structure constant"
+	@property
+	def alpha(self):
+		"Fine-structure constant"
+		return ufloat(self._uconst.alpha)
 
-	Ryd = ufloat(_uconst.Ryd)
-	"Rydberg constant / (1/m)"
+	@property
+	def Ryd(self):
+		"Rydberg constant / (1/m)"
+		return ufloat(self._uconst.Ryd)
 
-	mpsme = ufloat(_uconst.mpsme)
-	"Proton-electron mass ratio"
+	@property
+	def mpsme(self):
+		"Proton-electron mass ratio"
+		return ufloat(self._uconst.mpsme)
 
-	Na = ufloat(_uconst.Na)
-	"Avogadro constant / (1/mol)"
+	@property
+	def Na(self):
+		"Avogadro constant / (1/mol)"
+		return ufloat(self._uconst.Na)
 
-	Kj = ufloat(_uconst.Kj)
-	"Josephson constant / (Hz/V)"
+	@property
+	def Kj(self):
+		"Josephson constant / (Hz/V)"
+		return ufloat(self._uconst.Kj)
 
-	k = ufloat(_uconst.k)
-	"Boltzmann constant / (J/K)"
+	@property
+	def k(self):
+		"Boltzmann constant / (J/K)"
+		return ufloat(self._uconst.k)
 
-	Rk = ufloat(_uconst.Rk)
-	"von Klitzing constant / Ohm"
+	@property
+	def Rk(self): 
+		"von Klitzing constant / Ohm"
+		return ufloat(self._uconst.Rk)
 
-	e = ufloat(_uconst.e)
-	"Elementary charge / C"
+	@property
+	def e(self):
+		"Elementary charge / C"
+		return ufloat(self._uconst.e)
 
-	h = ufloat(_uconst.h)
-	"Planck constant / Js"
+	@property
+	def h(self):
+		"Planck constant / Js"
+		return ufloat(self._uconst.h)
 
-	me = ufloat(_uconst.me)
-	"Electron mass / kg"
+	@property
+	def me(self):
+		"Electron mass / kg"
+		return ufloat(self._uconst.me)
 
-	mp = ufloat(_uconst.mp)
-	"Proton mass / kg"
+	@property
+	def mp(self):
+		"Proton mass / kg"
+		return ufloat(self._uconst.mp)
 
-	u = ufloat(_uconst.u)
-	"Atomic mass constant / kg"
+	@property
+	def u(self):
+		"Atomic mass constant / kg"
+		return ufloat(self._uconst.u)
 
-	F = ufloat(_uconst.F)
-	"Faraday constant / (C/mol)"
+	@property
+	def F(self):
+		"Faraday constant / (C/mol)"
+		return ufloat(self._uconst.F)
 
-	R = ufloat(_uconst.R)
-	"Molar gas constant / (J/(mol*K))"
+	@property
+	def R(self):
+		"Molar gas constant / (J/(mol*K))"
+		return ufloat(self._uconst.R)
 
-	eV = ufloat(_uconst.eV)
-	"Electron volt / J"
+	@property
+	def eV(self):
+		"Electron volt / J"
+		return ufloat(self._uconst.eV)
 
 
 class const2014_90(const2014):
 	"Physical Constants CODATA 2014 for Conventional Electrical Units 90"
 
-	_const90 = _Const2014_90()
+	def __init__(self):
+		self._const90 = _Const2014_90()
+		super().__init__()
 
-	Kj = _const90.Kj
-	"Conventional value of Josephson _constant / (Hz/V)"
+	@property
+	def Kj(self):
+		"Conventional value of Josephson _constant / (Hz/V)"
+		return self._const90.Kj
 
-	Rk = _const90.Rk
-	"Conventional value of von Klitzing _constant / Ohm"
+	@property
+	def Rk(self):
+		"Conventional value of von Klitzing _constant / Ohm"
+		return self._const90.Rk
 
-	e = _const90.e
-	"Elementary charge / C"
+	@property
+	def e(self):
+		"Elementary charge / C"
+		return self._const90.e
 
-	h = _const90.h
-	"Planck _constant / Js"
+	@property
+	def h(self):
+		"Planck _constant / Js"
+		return self._const90.h
 
 class uconst2014_90(const2014_90):
 	"Physical Constants CODATA 2014 for Conventional Electrical Units 90"
 
-	_uconst90 = _Const2014[_UncNumber]()
+	def __init__(self):
+		self._uconst90 = _Const2014[_UncNumber]()
+		super().__init__()
 	
-	Na = ufloat(_uconst90.Na)
-	"Avogadro constant / (1/mol)"
+	@property
+	def Na(self):
+		"Avogadro constant / (1/mol)"
+		return ufloat(self._uconst90.Na)
 
-	F = ufloat(_uconst90.F)
-	"Faraday constant / (C/mol)"
+	@property
+	def F(self):
+		"Faraday constant / (C/mol)"
+		return ufloat(self._uconst90.F)
 
-	k = ufloat(_uconst90.k)
-	"Boltzmann constant / (J/K)"
+	@property
+	def k(self):
+		"Boltzmann constant / (J/K)"
+		return ufloat(self._uconst90.k)
 
 
 class const2018(object):
 	"Physical Constants CODATA 2018"
 
-	_const = _Const2018()
+	def __init__(self):
+		self._const = _Const2018()
 
-	deltavCs = _const.deltavCs
-	"Hyperfine transition frequency of Cs-133 / Hz"
+	@property
+	def deltavCs(self):
+		"Hyperfine transition frequency of Cs-133 / Hz"
+		return self._const.deltavCs
 
-	c0 = _const.c0
-	"Speed of light in vacuum / (m/s)"
+	@property
+	def c0(self):
+		"Speed of light in vacuum / (m/s)"
+		return self._const.c0
 
-	h = _const.h
-	"Planck _constant / Js"
+	@property
+	def h(self):
+		"Planck _constant / Js"
+		return self._const.h
 
-	e = _const.e
-	"Elementary charge / C"
+	@property
+	def e(self):
+		"Elementary charge / C"
+		return self._const.e
 
-	k = _const.k
-	"Boltzmann _constant / (J/K)"
+	@property
+	def k(self):
+		"Boltzmann _constant / (J/K)"
+		return self._const.k
 
-	Na = _const.Na
-	"Avogadro _constant / (1/mol)"
+	@property
+	def Na(self):
+		"Avogadro _constant / (1/mol)"
+		return self._const.Na
 
-	Kcd = _const.Kcd
-	"Luminous efficacy / (lm/W)"
+	@property
+	def Kcd(self):
+		"Luminous efficacy / (lm/W)"
+		return self._const.Kcd
 
-	Kj = _const.Kj
-	"Josephson _constant / (Hz/V)"
+	@property
+	def Kj(self):
+		"Josephson _constant / (Hz/V)"
+		return self._const.Kj
 
-	Rk = _const.Rk
-	"von Klitzing _constant / Ohm"
+	@property
+	def Rk(self):
+		"von Klitzing _constant / Ohm"
+		return self._const.Rk
 
-	F = _const.F
-	"Faraday _constant / (C/mol)"
+	@property
+	def F(self):
+		"Faraday _constant / (C/mol)"
+		return self._const.F
 
-	R = _const.R
-	"Molar gas _constant / (J/(mol*K))"
+	@property
+	def R(self):
+		"Molar gas _constant / (J/(mol*K))"
+		return self._const.R
 
-	eV = _const.eV
-	"Electron volt / J"
+	@property
+	def eV(self):
+		"Electron volt / J"
+		return self._const.eV
 
 class uconst2018(const2018):
 	"Physical Constants CODATA 2018"
 
-	_uconst = _Const2018[_UncNumber]()
+	def __init__(self):
+		self._uconst = _Const2018[_UncNumber]()
+		super().__init__()
 
-	G = ufloat(_uconst.G)
-	"Newtonian _uconstant of gravitation / (m^3/(kg*s^2))"
+	@property
+	def G(self):
+		"Newtonian _uconstant of gravitation / (m^3/(kg*s^2))"
+		return ufloat(self._uconst.G)
 
-	alpha = ufloat(_uconst.alpha)
-	"Fine-structure _uconstant"
+	@property
+	def alpha(self):
+		"Fine-structure _uconstant"
+		return ufloat(self._uconst.alpha)
 
-	mu0 = ufloat(_uconst.mu0)
-	"Vacuum magnetic permeability / (Vs/Am)"
+	@property
+	def mu0(self):
+		"Vacuum magnetic permeability / (Vs/Am)"
+		return ufloat(self._uconst.mu0)
 
-	ep0 = ufloat(_uconst.ep0)
-	"Vacuum electric permittivity / (As/Vm)"
+	@property
+	def ep0(self):
+		"Vacuum electric permittivity / (As/Vm)"
+		return ufloat(self._uconst.ep0)
 
-	Ryd = ufloat(_uconst.Ryd)
-	"Rydberg _uconstant / (1/m)"
+	@property
+	def Ryd(self):
+		"Rydberg _uconstant / (1/m)"
+		return ufloat(self._uconst.Ryd)
 
-	me = ufloat(_uconst.me)
-	"Electron mass / kg"
+	@property
+	def me(self):
+		"Electron mass / kg"
+		return ufloat(self._uconst.me)
 
-	are = ufloat(_uconst.are)
-	"Electron relative atomic mass"
+	@property
+	def are(self):
+		"Electron relative atomic mass"
+		return ufloat(self._uconst.are)
 
-	arp = ufloat(_uconst.arp)
-	"Proton relative atomic mass"
+	@property
+	def arp(self):
+		"Proton relative atomic mass"
+		return ufloat(self._uconst.arp)
 
-	mpsme = ufloat(_uconst.mpsme)
-	"Proton-electron mass ratio"
+	@property
+	def mpsme(self):
+		"Proton-electron mass ratio"
+		return ufloat(self._uconst.mpsme)
 
-	mp = ufloat(_uconst.mp)
-	"Proton mass / kg"
+	@property
+	def mp(self):
+		"Proton mass / kg"
+		return ufloat(self._uconst.mp)
 
-	u = ufloat(_uconst.u)
-	"Atomic mass _uconstant / kg"
+	@property
+	def u(self):
+		"Atomic mass _uconstant / kg"
+		return ufloat(self._uconst.u)
 
-	Mu = ufloat(_uconst.Mu)
-	"Molar mass _uconstant / (kg/mol)"
+	@property
+	def Mu(self):
+		"Molar mass _uconstant / (kg/mol)"
+		return ufloat(self._uconst.Mu)
 
 
 class const(const2018):
 	"Newest Physical Constants"
 
-	_v = 'CODATA 2018'
+	def __init__(self):
+		super().__init__()
 
 class uconst(uconst2018):
 	"Newest Physical Constants"
 
-	_v = 'CODATA 2018'
+	def __init__(self):
+		super().__init__()
