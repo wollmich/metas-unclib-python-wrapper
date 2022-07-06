@@ -1402,11 +1402,12 @@ class ucomplex(object):
 		return self.angle(deg)
 
 
-class const2014(object):
+class _const2014(object):
 	"Physical Constants CODATA 2014"
 
-	def __init__(self):
-		self._const = _Const2014()
+	@property
+	def _const(self):
+		return _Const2014
 
 	@property
 	def deltavCs(self):
@@ -1438,12 +1439,12 @@ class const2014(object):
 		"Molar mass _constant / (kg/mol)"
 		return self._const.Mu
 
-class uconst2014(const2014):
+class _uconst2014(_const2014):
 	"Physical Constants CODATA 2014"
 
-	def __init__(self):
-		self._uconst = _Const2014[_UncNumber]()
-		super().__init__()
+	@property
+	def _uconst(self):
+		return _Const2014[_UncNumber]
 
 	@property
 	def G(self):
@@ -1526,12 +1527,12 @@ class uconst2014(const2014):
 		return ufloat(self._uconst.eV)
 
 
-class const2014_90(const2014):
+class _const2014_90(_const2014):
 	"Physical Constants CODATA 2014 for Conventional Electrical Units 90"
 
-	def __init__(self):
-		self._const90 = _Const2014_90()
-		super().__init__()
+	@property
+	def _const90(self):
+		return _Const2014_90
 
 	@property
 	def Kj(self):
@@ -1553,13 +1554,13 @@ class const2014_90(const2014):
 		"Planck _constant / Js"
 		return self._const90.h
 
-class uconst2014_90(const2014_90):
+class _uconst2014_90(_const2014_90):
 	"Physical Constants CODATA 2014 for Conventional Electrical Units 90"
 
-	def __init__(self):
-		self._uconst90 = _Const2014[_UncNumber]()
-		super().__init__()
-	
+	@property
+	def _uconst90(self):
+		return _Const2014_90[_UncNumber]
+
 	@property
 	def Na(self):
 		"Avogadro constant / (1/mol)"
@@ -1576,11 +1577,12 @@ class uconst2014_90(const2014_90):
 		return ufloat(self._uconst90.k)
 
 
-class const2018(object):
+class _const2018(object):
 	"Physical Constants CODATA 2018"
 
-	def __init__(self):
-		self._const = _Const2018()
+	@property
+	def _const(self):
+		return _Const2018
 
 	@property
 	def deltavCs(self):
@@ -1642,12 +1644,12 @@ class const2018(object):
 		"Electron volt / J"
 		return self._const.eV
 
-class uconst2018(const2018):
+class _uconst2018(_const2018):
 	"Physical Constants CODATA 2018"
 
-	def __init__(self):
-		self._uconst = _Const2018[_UncNumber]()
-		super().__init__()
+	@property
+	def _uconst(self):
+		return _Const2018[_UncNumber]
 
 	@property
 	def G(self):
@@ -1710,14 +1712,14 @@ class uconst2018(const2018):
 		return ufloat(self._uconst.Mu)
 
 
-class const(const2018):
-	"Newest Physical Constants"
+uconst2014 = _uconst2014()
+"Physical Constants CODATA 2014"
 
-	def __init__(self):
-		super().__init__()
+uconst2014_90 = _uconst2014_90()
+"Physical Constants CODATA 2014 for Conventional Electrical Units 90"
 
-class uconst(uconst2018):
-	"Newest Physical Constants"
+uconst2018 = _uconst2018()
+"Physical Constants CODATA 2018"
 
-	def __init__(self):
-		super().__init__()
+uconst = _uconst2018()
+"Newest Physical Constants"
