@@ -1,4 +1,4 @@
-# Michael Wollensack METAS - 22.01.2019 - 06.07.2022
+# Michael Wollensack METAS - 22.01.2019 - 13.10.2022
 
 import os as _os
 import sys as _sys
@@ -941,11 +941,8 @@ class ufloat(object):
 		else:
 			raise Exception("Unknown arguments")
 
-	def __str__(self):
-		return str(self.value) + _pm + str(self.stdunc)
-
 	def __repr__(self):
-		return self.__str__()
+		return str(self.value) + _pm + str(self.stdunc)
 
 	@property
 	def value(self):
@@ -1190,11 +1187,8 @@ class ucomplex(object):
 			id2, desc2 = _input_id_desc(id, desc)
 			self._d = _UncHelper.ComplexUncNumber(v, cv.Matrix, id2, desc2)
 
-	def __str__(self):
-		return str(self.value) + _pm + str(self.stdunc)
-
 	def __repr__(self):
-		return self.__str__()
+		return str(self.value) + _pm + str(self.stdunc)
 
 	@property
 	def real(self):
