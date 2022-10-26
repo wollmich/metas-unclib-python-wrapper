@@ -1,1 +1,11 @@
 /__pycache__
+/mkl_custom
+/Microsoft.VisualStudio.DebuggerVisualizers.dll
+/Metas.Alglib.dll
+/Metas.IntelMKL.dll
+/Metas.IntelMKL.dll.config
+/Metas.UncLib.Core.dll
+/Metas.UncLib.DistProp.dll
+/Metas.UncLib.LinProp.dll
+/Metas.UncLib.MCProp.dll
+/Metas.UncLib.Optimization.dll
