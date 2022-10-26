@@ -1,4 +1,4 @@
-# Michael Wollensack METAS - 22.01.2019 - 13.10.2022
+# Michael Wollensack METAS - 22.01.2019 - 26.10.2022
 
 import os as _os
 import sys as _sys
@@ -100,12 +100,12 @@ def _asnetobject(a, forcecomplex=False):
 			b = a.net_object
 	elif type(a) is ucomplex:
 		b = a.net_object
-	elif type(a) in [float, np.float64]:
+	elif isinstance(a, float):
 		if forcecomplex:
 			b = ucomplex(a).net_object
 		else:
 			b = ufloat(a).net_object
-	elif type(a) in [complex, np.complex64]:
+	elif isinstance(a, complex):
 		b = ucomplex(a).net_object
 	else:
 		b = _asnetnarray(a, forcecomplex)
@@ -335,7 +335,7 @@ def get_unc_component(a, b):
 	return r2
 
 def iscomplex(d):
-	return type(d) in [complex, np.complex128, _Complex[_UncNumber], ucomplex]
+	return isinstance(d, (complex, _Complex[_UncNumber], ucomplex))
 
 def iscomplexarray(a):
 	return any([iscomplex(ai) for ai in np.asarray(a).flat])
@@ -926,7 +926,7 @@ class ustorage(object):
 
 class ufloat(object):
 	def __init__(self, value, stdunc=0.0, idof=0.0, id=None, desc=None):
-		if type(value) in [int, float, np.float64]:
+		if isinstance(value, (int, float)):
 			if stdunc != 0:
 				id2, desc2 = _input_id_desc(id, desc)
 				self._d = _UncNumber(float(value), float(stdunc), float(idof), id2, desc2)
