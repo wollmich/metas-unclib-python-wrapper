@@ -14,3 +14,4 @@ venv
 .python-version
 *.egg-info
 dist
+.vscode
