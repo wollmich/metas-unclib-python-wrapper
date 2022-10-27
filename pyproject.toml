@@ -35,7 +35,9 @@ homepage = "https://www.metas.ch/unclib"
 dev = [
     "black",
     "pylint",
-    "pytest"
+    "pytest",
+    "build",
+    "wheel"
 ]
 user = [
     "scipy",

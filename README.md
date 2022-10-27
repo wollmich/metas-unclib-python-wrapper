@@ -31,4 +31,7 @@ For METAS UncLib see
 - Configure editor to use `black`, `pylint` and `pytest`
 - Create a feature branch
 - Add feature and tests
+- Run pytest, black and pylint
+- Build package: python -m build
+- Test wheel in separate virtual environment
 - Push feature branch to fork and create a PR
