@@ -44,7 +44,11 @@ user = [
 ]
 
 [tool.setuptools]
-packages = ["metas_unclib"]
+packages = ["metas_unclib", "metas_unclib.examples", "metas_unclib.jupyter_notebooks"]
+include-package-data = true
+
+[tool.setuptools.package-data]
+metas_unclib = ["*", "mkl_custom/win/intel64/*"]
 
 [tool.setuptools_scm]
 
