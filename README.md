@@ -19,7 +19,7 @@ For METAS UncLib see
 - [METAS UncLib Pyhton Wrapper](metas_unclib/metas_unclib.py)
 
 ## Developer workflow
-- Install [METAS UncLib](https://www.metas.ch/metas/en/home/fabe/hochfrequenz/unclib.html)
+- Install [METAS UncLib](https://www.metas.ch/unclib)
     - Delete PYTHONPATH environment variable to enable development within virtual environment
 - Fork repo on Github
 - Clone fork onto local machine and navigate to folder
