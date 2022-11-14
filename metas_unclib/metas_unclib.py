@@ -1,4 +1,4 @@
-# Michael Wollensack METAS - 22.01.2019 - 26.10.2022
+# Michael Wollensack METAS - 22.01.2019 - 04.11.2022
 
 import os as _os
 import sys as _sys
@@ -236,7 +236,7 @@ def unc_budget(a, format=None, name=None, infos=None):
 def ufloatsystem(value, sys_inputs, sys_sensitivities):
 	if _UncNumber is not _LinPropUncNumber:
 		raise Exception("ufloatsystem supports only LinProp uncertainty objects")
-	d = _UncNumber()
+	d = _UncNumber(0)
 	value2 = float(value)
 	sys_inputs2 = _asunclist(sys_inputs).data
 	sys_sensitivities2 = _asnetdoublearray(sys_sensitivities)
@@ -871,7 +871,7 @@ class ustorage(object):
 					x = _Complex[_UncNumber]().BinaryDeserialize(filepath)
 				except:
 					try:
-						x = _UncNumber().BinaryDeserialize(filepath)
+						x = _UncNumber(0).BinaryDeserialize(filepath)
 					except:
 						raise Exception("Wrong structure of binary file")
 		x2 = _fromnetobject(x)
@@ -894,7 +894,7 @@ class ustorage(object):
 					x = _Complex[_UncNumber]().XmlDeserialize(filepath)
 				except:
 					try:
-						x = _UncNumber().XmlDeserialize(filepath)
+						x = _UncNumber(0).XmlDeserialize(filepath)
 					except:
 						raise Exception("Wrong structure of xml file")
 		x2 = _fromnetobject(x)
@@ -917,7 +917,7 @@ class ustorage(object):
 					x = _Complex[_UncNumber]().XmlDeserializeFromString(s)
 				except:
 					try:
-						x = _UncNumber().XmlDeserializeFromString(s)
+						x = _UncNumber(0).XmlDeserializeFromString(s)
 					except:
 						raise Exception("Wrong structure of xml string")
 		x2 = _fromnetobject(x)
