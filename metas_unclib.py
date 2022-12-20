@@ -1,4 +1,4 @@
-# Michael Wollensack METAS - 22.01.2019 - 14.12.2022
+# Michael Wollensack METAS - 22.01.2019 - 20.12.2022
 
 import os as _os
 import sys as _sys
@@ -93,12 +93,12 @@ def use_mcprop(n=100000):
 	_UncHelper = _GenericUnc[_UncList, _UncNumber]()
 
 def _asnetobject(a, forcecomplex=False):
-	if type(a) is ufloat:
+	if isinstance(a, ufloat):
 		if forcecomplex:
 			b = ucomplex(a).net_object
 		else:
 			b = a.net_object
-	elif type(a) is ucomplex:
+	elif isinstance(a, ucomplex):
 		b = a.net_object
 	elif isinstance(a, float):
 		if forcecomplex:
@@ -998,7 +998,7 @@ class ufloat(object):
 			self._d = value
 		elif type(value) is _Real[_UncNumber]:
 			self._d = value.Item
-		elif type(value) is ufloat:
+		elif isinstance(value, ufloat):
 			self._d = value._d
 		else:
 			raise Exception("Unknown arguments")
@@ -1042,7 +1042,7 @@ class ufloat(object):
 	def __add__(self, other):
 		if iscomplex(other):
 			return ucomplex(self) + other
-		elif type(other) is np.ndarray:
+		elif isinstance(other, np.ndarray):
 			return np.asarray(self) + other
 		else:
 			return ufloat(self._d.Add(ufloat(other)._d))
@@ -1050,7 +1050,7 @@ class ufloat(object):
 	def __radd__(self, other):
 		if iscomplex(other):
 			return other + ucomplex(self)
-		elif type(other) is np.ndarray:
+		elif isinstance(other, np.ndarray):
 			return other + np.asarray(self)
 		else:
 			return ufloat(ufloat(other)._d.Add(self._d))
@@ -1058,7 +1058,7 @@ class ufloat(object):
 	def __sub__(self, other):
 		if iscomplex(other):
 			return ucomplex(self) - other
-		elif type(other) is np.ndarray:
+		elif isinstance(other, np.ndarray):
 			return np.asarray(self) - other
 		else:
 			return ufloat(self._d.Subtract(ufloat(other)._d))
@@ -1066,7 +1066,7 @@ class ufloat(object):
 	def __rsub__(self, other):
 		if iscomplex(other):
 			return other - ucomplex(self)
-		elif type(other) is np.ndarray:
+		elif isinstance(other, np.ndarray):
 			return other - np.asarray(self)
 		else:
 			return ufloat(ufloat(other)._d.Subtract(self._d))
@@ -1074,7 +1074,7 @@ class ufloat(object):
 	def __mul__(self, other):
 		if iscomplex(other):
 			return ucomplex(self) * other
-		elif type(other) is np.ndarray:
+		elif isinstance(other, np.ndarray):
 			return np.asarray(self) * other
 		else:
 			return ufloat(self._d.Multiply(ufloat(other)._d))
@@ -1082,7 +1082,7 @@ class ufloat(object):
 	def __rmul__(self, other):
 		if iscomplex(other):
 			return other * ucomplex(self)
-		elif type(other) is np.ndarray:
+		elif isinstance(other, np.ndarray):
 			return other * np.asarray(self)
 		else:
 			return ufloat(ufloat(other)._d.Multiply(self._d))
@@ -1090,7 +1090,7 @@ class ufloat(object):
 	def __div__(self, other):
 		if iscomplex(other):
 			return ucomplex(self) / other
-		elif type(other) is np.ndarray:
+		elif isinstance(other, np.ndarray):
 			return np.asarray(self) / other
 		else:
 			return ufloat(self._d.Divide(ufloat(other)._d))
@@ -1098,7 +1098,7 @@ class ufloat(object):
 	def __rdiv__(self, other):
 		if iscomplex(other):
 			return other / ucomplex(self)
-		elif type(other) is np.ndarray:
+		elif isinstance(other, np.ndarray):
 			return other / np.asarray(self)
 		else:
 			return ufloat(ufloat(other)._d.Divide(self._d))
@@ -1106,7 +1106,7 @@ class ufloat(object):
 	def __truediv__(self, other):
 		if iscomplex(other):
 			return ucomplex(self) / other
-		elif type(other) is np.ndarray:
+		elif isinstance(other, np.ndarray):
 			return np.asarray(self) / other
 		else:
 			return ufloat(self._d.Divide(ufloat(other)._d))
@@ -1114,7 +1114,7 @@ class ufloat(object):
 	def __rtruediv__(self, other):
 		if iscomplex(other):
 			return other / ucomplex(self)
-		elif type(other) is np.ndarray:
+		elif isinstance(other, np.ndarray):
 			return other / np.asarray(self)
 		else:
 			return ufloat(ufloat(other)._d.Divide(self._d))
@@ -1122,7 +1122,7 @@ class ufloat(object):
 	def __pow__(self, other):
 		if iscomplex(other):
 			return ucomplex(self) ** other
-		elif type(other) is np.ndarray:
+		elif isinstance(other, np.ndarray):
 			return np.asarray(self) ** other
 		elif type(other) is int:
 			return ufloat(self._d.Pow(other))
@@ -1132,7 +1132,7 @@ class ufloat(object):
 	def __rpow__(self, other):
 		if iscomplex(other):
 			return other ** ucomplex(self)
-		elif type(other) is np.ndarray:
+		elif isinstance(other, np.ndarray):
 			return other ** np.asarray(self)
 		else:
 			return ufloat(ufloat(other)._d.Pow(self._d))
@@ -1231,7 +1231,7 @@ class ucomplex(object):
 	def __init__(self, value, imag=0.0, covariance=None, id=None, desc=None):
 		if covariance is None:
 			if iscomplex(value) and imag == 0:
-				if type(value) is complex:
+				if isinstance(value, complex):
 					self._d = _Complex[_UncNumber](_UncNumber(value.real), _UncNumber(value.imag))
 				elif type(value) is _Complex[_UncNumber]:
 					self._d = value
@@ -1294,61 +1294,61 @@ class ucomplex(object):
 		return ucomplex(self._d.Negative())
 
 	def __add__(self, other):
-		if type(other) is np.ndarray:
+		if isinstance(other, np.ndarray):
 			return np.asarray(self) + other
 		else:
 			return ucomplex(self._d.Add(ucomplex(other)._d))
 
 	def __radd__(self, other):
-		if type(other) is np.ndarray:
+		if isinstance(other, np.ndarray):
 			return other + np.asarray(self)
 		else:
 			return ucomplex(ucomplex(other)._d.Add(self._d))
 
 	def __sub__(self, other):
-		if type(other) is np.ndarray:
+		if isinstance(other, np.ndarray):
 			return np.asarray(self) - other
 		else:
 			return ucomplex(self._d.Subtract(ucomplex(other)._d))
 
 	def __rsub__(self, other):
-		if type(other) is np.ndarray:
+		if isinstance(other, np.ndarray):
 			return other - np.asarray(self)
 		else:
 			return ucomplex(ucomplex(other)._d.Subtract(self._d))
 
 	def __mul__(self, other):
-		if type(other) is np.ndarray:
+		if isinstance(other, np.ndarray):
 			return np.asarray(self) * other
 		else:
 			return ucomplex(self._d.Multiply(ucomplex(other)._d))
 
 	def __rmul__(self, other):
-		if type(other) is np.ndarray:
+		if isinstance(other, np.ndarray):
 			return other * np.asarray(self)
 		else:
 			return ucomplex(ucomplex(other)._d.Multiply(self._d))
 
 	def __div__(self, other):
-		if type(other) is np.ndarray:
+		if isinstance(other, np.ndarray):
 			return np.asarray(self) / other
 		else:
 			return ucomplex(self._d.Divide(ucomplex(other)._d))
 
 	def __rdiv__(self, other):
-		if type(other) is np.ndarray:
+		if isinstance(other, np.ndarray):
 			return other / np.asarray(self)
 		else:
 			return ucomplex(ucomplex(other)._d.Divide(self._d))
 
 	def __truediv__(self, other):
-		if type(other) is np.ndarray:
+		if isinstance(other, np.ndarray):
 			return np.asarray(self) / other
 		else:
 			return ucomplex(self._d.Divide(ucomplex(other)._d))
 
 	def __rtruediv__(self, other):
-		if type(other) is np.ndarray:
+		if isinstance(other, np.ndarray):
 			return other / np.asarray(self)
 		else:
 			return ucomplex(ucomplex(other)._d.Divide(self._d))
@@ -1356,13 +1356,13 @@ class ucomplex(object):
 	def __pow__(self, other):
 		if type(other) is int:
 			return ucomplex(self._d.Pow(other))
-		elif type(other) is np.ndarray:
+		elif isinstance(other, np.ndarray):
 			return np.asarray(self) ** other
 		else:
 			return ucomplex(self._d.Pow(ucomplex(other)._d))
 
 	def __rpow__(self, other):
-		if type(other) is np.ndarray:
+		if isinstance(other, np.ndarray):
 			return other ** np.asarray(self)
 		else:
 			return ucomplex(ucomplex(other)._d.Pow(self._d))
