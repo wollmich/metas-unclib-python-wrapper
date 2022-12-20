@@ -1,4 +1,4 @@
-# Michael Wollensack METAS - 22.01.2019 - 14.12.2022
+# Michael Wollensack METAS - 22.01.2019 - 20.12.2022
 
 import os as _os
 import sys as _sys
@@ -1231,7 +1231,7 @@ class ucomplex(object):
 	def __init__(self, value, imag=0.0, covariance=None, id=None, desc=None):
 		if covariance is None:
 			if iscomplex(value) and imag == 0:
-				if type(value) is complex:
+				if isinstance(value, complex):
 					self._d = _Complex[_UncNumber](_UncNumber(value.real), _UncNumber(value.imag))
 				elif type(value) is _Complex[_UncNumber]:
 					self._d = value
