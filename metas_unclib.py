@@ -1,4 +1,4 @@
-# Michael Wollensack METAS - 22.01.2019 - 04.11.2022
+# Michael Wollensack METAS - 22.01.2019 - 14.12.2022
 
 import os as _os
 import sys as _sys
@@ -555,6 +555,68 @@ class ulinalg(object):
 			x2 = _RealLinAlg[_UncNumber].WeightedLstSqrSolve(a2, y2, w2)
 		x = _fromnetnarray(x2)
 		return x
+
+	@staticmethod
+	def generallstsqrsolve(a, y, v):
+		complexarray = iscomplexarray(a) or iscomplexarray(y)
+		a2 = _asnetnarray(a, complexarray)
+		y2 = _asnetnarray(y, complexarray)
+		v2 = _asnetnarray(v, False)
+		if complexarray:
+			x2 = _ComplexLinAlg[_UncNumber].GeneralLstSqrSolve(a2, y2, v2)
+		else:
+			x2 = _RealLinAlg[_UncNumber].GeneralLstSqrSolve(a2, y2, v2)
+		x = _fromnetnarray(x2)
+		return x
+
+	@staticmethod
+	def lu(a):
+		complexarray = iscomplexarray(a)
+		a2 = _asnetnarray(a, complexarray)
+		if complexarray:
+			res = _ComplexLinAlg[_UncNumber].Lu(a2)
+		else:
+			res = _RealLinAlg[_UncNumber].Lu(a2)
+		l = _fromnetnarray(res.l)
+		u = _fromnetnarray(res.u)
+		p = _fromnetnarray(res.p)
+		return l, u, p
+
+	@staticmethod
+	def cholesky(a):
+		complexarray = iscomplexarray(a)
+		a2 = _asnetnarray(a, complexarray)
+		if complexarray:
+			l2 = _ComplexLinAlg[_UncNumber].Cholesky(a2)
+		else:
+			l2 = _RealLinAlg[_UncNumber].Cholesky(a2)
+		l = _fromnetnarray(l2)
+		return l
+
+	@staticmethod
+	def qr(a):
+		complexarray = iscomplexarray(a)
+		a2 = _asnetnarray(a, complexarray)
+		if complexarray:
+			res = _ComplexLinAlg[_UncNumber].Qr(a2)
+		else:
+			res = _RealLinAlg[_UncNumber].Qr(a2)
+		q = _fromnetnarray(res[0])
+		r = _fromnetnarray(res[1])
+		return q, r
+
+	@staticmethod
+	def svd(a):
+		complexarray = iscomplexarray(a)
+		a2 = _asnetnarray(a, complexarray)
+		if complexarray:
+			res = _ComplexLinAlg[_UncNumber].Svd(a2)
+		else:
+			res = _RealLinAlg[_UncNumber].Svd(a2)
+		u = _fromnetnarray(res[0])
+		s = _fromnetnarray(res[1])
+		v = _fromnetnarray(res[2])
+		return u, s, v
 
 	@staticmethod
 	def eig(a, *args):
