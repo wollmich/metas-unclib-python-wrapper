@@ -1003,6 +1003,14 @@ class ufloat(object):
 		else:
 			raise Exception("Unknown arguments")
 
+	def __getstate__(self):
+		state = ustorage.to_xml_string(self)
+		return state
+
+	def __setstate__(self, state):
+		loaded = ustorage.from_xml_string(state)
+		self._d = loaded._d
+  
 	def __repr__(self):
 		return str(self.value) + _pm + str(self.stdunc)
 
@@ -1249,6 +1257,14 @@ class ucomplex(object):
 			id2, desc2 = _input_id_desc(id, desc)
 			self._d = _UncHelper.ComplexUncNumber(v, cv.Matrix, id2, desc2)
 
+	def __getstate__(self):
+		state = ustorage.to_xml_string(self)
+		return state
+
+	def __setstate__(self, state):
+		loaded = ustorage.from_xml_string(state)
+		self._d = loaded._d
+  
 	def __repr__(self):
 		return str(self.value) + _pm + str(self.stdunc)
 
