@@ -1028,11 +1028,11 @@ class ufloat(object):
 			raise Exception("Unknown arguments")
 
 	def __getstate__(self):
-		state = ustorage.to_xml_string(self)
+		state = ustorage.to_byte_array(self)
 		return state
 
 	def __setstate__(self, state):
-		loaded = ustorage.from_xml_string(state)
+		loaded = ustorage.from_byte_array(state)
 		self._d = loaded._d
   
 	def __repr__(self):
@@ -1282,11 +1282,11 @@ class ucomplex(object):
 			self._d = _UncHelper.ComplexUncNumber(v, cv.Matrix, id2, desc2)
 
 	def __getstate__(self):
-		state = ustorage.to_xml_string(self)
+		state = ustorage.to_byte_array(self)
 		return state
 
 	def __setstate__(self, state):
-		loaded = ustorage.from_xml_string(state)
+		loaded = ustorage.from_byte_array(state)
 		self._d = loaded._d
   
 	def __repr__(self):
