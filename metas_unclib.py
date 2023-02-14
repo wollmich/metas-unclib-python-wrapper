@@ -931,7 +931,7 @@ class ustorage(object):
 				x = _RealNArray[_UncNumber]().BinaryDeserialize(filepath)
 			except:
 				try:
-					x = _Complex[_UncNumber]().BinaryDeserialize(filepath)
+					x = _Complex[_UncNumber](0).BinaryDeserialize(filepath)
 				except:
 					try:
 						x = _UncNumber(0).BinaryDeserialize(filepath)
@@ -954,7 +954,7 @@ class ustorage(object):
 				x = _RealNArray[_UncNumber]().XmlDeserialize(filepath)
 			except:
 				try:
-					x = _Complex[_UncNumber]().XmlDeserialize(filepath)
+					x = _Complex[_UncNumber](0).XmlDeserialize(filepath)
 				except:
 					try:
 						x = _UncNumber(0).XmlDeserialize(filepath)
@@ -977,7 +977,7 @@ class ustorage(object):
 				x = _RealNArray[_UncNumber]().XmlDeserializeFromString(s)
 			except:
 				try:
-					x = _Complex[_UncNumber]().XmlDeserializeFromString(s)
+					x = _Complex[_UncNumber](0).XmlDeserializeFromString(s)
 				except:
 					try:
 						x = _UncNumber(0).XmlDeserializeFromString(s)
@@ -1001,7 +1001,7 @@ class ustorage(object):
 				x = _RealNArray[_UncNumber]().BinaryDeserializeFromByteArray(b2)
 			except:
 				try:
-					x = _Complex[_UncNumber]().BinaryDeserializeFromByteArray(b2)
+					x = _Complex[_UncNumber](0).BinaryDeserializeFromByteArray(b2)
 				except:
 					try:
 						x = _UncNumber(0).BinaryDeserializeFromByteArray(b2)
