@@ -1,4 +1,4 @@
-# Michael Wollensack METAS - 22.01.2019 - 20.12.2022
+# Michael Wollensack METAS - 22.01.2019 - 14.02.2023
 
 import os as _os
 import sys as _sys
@@ -21,6 +21,7 @@ _clr.AddReference(_os.path.join(_unclib_path, "Metas.UncLib.MCProp.dll"))
 _clr.AddReference(_os.path.join(_unclib_path, "Metas.UncLib.Optimization.dll"))
 
 from System import Array as _Array
+from System import Byte as _Byte
 from System.Windows.Forms import Form as _Form
 from System.Windows.Forms import DockStyle as _DockStyle
 from System.Drawing import Size as _Size
@@ -930,7 +931,7 @@ class ustorage(object):
 				x = _RealNArray[_UncNumber]().BinaryDeserialize(filepath)
 			except:
 				try:
-					x = _Complex[_UncNumber]().BinaryDeserialize(filepath)
+					x = _Complex[_UncNumber](0).BinaryDeserialize(filepath)
 				except:
 					try:
 						x = _UncNumber(0).BinaryDeserialize(filepath)
@@ -953,7 +954,7 @@ class ustorage(object):
 				x = _RealNArray[_UncNumber]().XmlDeserialize(filepath)
 			except:
 				try:
-					x = _Complex[_UncNumber]().XmlDeserialize(filepath)
+					x = _Complex[_UncNumber](0).XmlDeserialize(filepath)
 				except:
 					try:
 						x = _UncNumber(0).XmlDeserialize(filepath)
@@ -976,7 +977,7 @@ class ustorage(object):
 				x = _RealNArray[_UncNumber]().XmlDeserializeFromString(s)
 			except:
 				try:
-					x = _Complex[_UncNumber]().XmlDeserializeFromString(s)
+					x = _Complex[_UncNumber](0).XmlDeserializeFromString(s)
 				except:
 					try:
 						x = _UncNumber(0).XmlDeserializeFromString(s)
@@ -985,6 +986,29 @@ class ustorage(object):
 		x2 = _fromnetobject(x)
 		return x2
 
+	@staticmethod
+	def to_byte_array(x):
+		x2 = _asnetobject(x)
+		return bytes(x2.BinarySerializeToByteArray())
+
+	@staticmethod
+	def from_byte_array(b):
+		b2 = _Array[_Byte](b)
+		try:
+			x = _ComplexNArray[_UncNumber]().BinaryDeserializeFromByteArray(b2)
+		except:
+			try:
+				x = _RealNArray[_UncNumber]().BinaryDeserializeFromByteArray(b2)
+			except:
+				try:
+					x = _Complex[_UncNumber](0).BinaryDeserializeFromByteArray(b2)
+				except:
+					try:
+						x = _UncNumber(0).BinaryDeserializeFromByteArray(b2)
+					except:
+						raise Exception("Wrong structure of byte array")
+		x2 = _fromnetobject(x)
+		return x2
 
 class ufloat(object):
 	def __init__(self, value, stdunc=0.0, idof=0.0, id=None, desc=None):
@@ -1003,6 +1027,14 @@ class ufloat(object):
 		else:
 			raise Exception("Unknown arguments")
 
+	def __getstate__(self):
+		state = ustorage.to_byte_array(self)
+		return state
+
+	def __setstate__(self, state):
+		loaded = ustorage.from_byte_array(state)
+		self._d = loaded._d
+  
 	def __repr__(self):
 		return str(self.value) + _pm + str(self.stdunc)
 
@@ -1249,6 +1281,14 @@ class ucomplex(object):
 			id2, desc2 = _input_id_desc(id, desc)
 			self._d = _UncHelper.ComplexUncNumber(v, cv.Matrix, id2, desc2)
 
+	def __getstate__(self):
+		state = ustorage.to_byte_array(self)
+		return state
+
+	def __setstate__(self, state):
+		loaded = ustorage.from_byte_array(state)
+		self._d = loaded._d
+  
 	def __repr__(self):
 		return str(self.value) + _pm + str(self.stdunc)
 
