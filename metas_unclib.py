@@ -1034,7 +1034,7 @@ class ufloat(object):
 	def __setstate__(self, state):
 		loaded = ustorage.from_byte_array(state)
 		self._d = loaded._d
-  
+
 	def __repr__(self):
 		return str(self.value) + _pm + str(self.stdunc)
 
@@ -1288,7 +1288,7 @@ class ucomplex(object):
 	def __setstate__(self, state):
 		loaded = ustorage.from_byte_array(state)
 		self._d = loaded._d
-  
+
 	def __repr__(self):
 		return str(self.value) + _pm + str(self.stdunc)
 
