@@ -1,4 +1,4 @@
-# Michael Wollensack METAS - 22.01.2019 - 14.02.2023
+# Michael Wollensack METAS - 22.01.2019 - 22.02.2023
 
 import os as _os
 import sys as _sys
@@ -1009,6 +1009,76 @@ class ustorage(object):
 						raise Exception("Wrong structure of byte array")
 		x2 = _fromnetobject(x)
 		return x2
+
+
+class uspecial(object):
+	@staticmethod
+	def linprop2mcprop(x):
+		use_linprop()
+		x_values = get_value(x)
+		x_covariance = get_covariance(x)
+		if isinstance(x, ufloat):
+			use_mcprop()
+			xmc = ufloat(x_values, np.sqrt(x_covariance[0, 0]))
+		elif isinstance(x, ucomplex):
+			use_mcprop()
+			xmc = ucomplex(x_values, covariance=x_covariance)
+		elif iscomplexarray(x):
+			use_mcprop()
+			xmc = ucomplexarray(x_values, x_covariance)
+		else:
+			use_mcprop()
+			xmc = ufloatarray(x_values, x_covariance)
+		return xmc
+	
+	@staticmethod
+	def mcprop2linprop(ymc, xmc, x):
+		use_mcprop()
+		ymc2 = _fromnetnarray(_asnetnarray(_asunclist(ymc).data))
+		xmc2 = _fromnetnarray(_asnetnarray(_asunclist(xmc).data))
+		use_linprop()
+		x2 = _fromnetnarray(_asnetnarray(_asunclist(x).data))
+		xmc2sub = []
+		x2sub = []
+		for i in range(x2.size):
+			if get_stdunc(x2[i]) > 0:
+				xmc2sub.append(xmc2[i])
+				x2sub.append(x2[i])
+		use_mcprop()
+		xmc_values = get_value(xmc2sub)
+		xmc_covar = get_covariance(xmc2sub)
+		ymc_values = get_value(ymc2)
+		ymc_covar = get_covariance(ymc2)
+		ymc_xmc_jacobi = get_jacobi2(ymc2, xmc2sub)
+		use_linprop()
+		x_covar = get_covariance(x2sub)
+		xmc_x_jacobi = np.dot(np.linalg.cholesky(xmc_covar), np.linalg.inv(np.linalg.cholesky(x_covar)))
+		x3 = [ufloatsystem(get_value(xmc_values[i]), x2sub, xmc_x_jacobi[i, :]) for i in range(len(x2sub))]
+		y2 = [ufloatsystem(get_value(ymc_values[i]), x3, ymc_xmc_jacobi[i, :]) for i in range(ymc_values.size)]
+		# Add non-linear contributions
+		ymc_covar_lin = get_covariance(y2)
+		ymc_covar_non_lin = ymc_covar - ymc_covar_lin
+		if len(y2) == 1:
+			l = ufloatarray(np.zeros(len(y2)), ymc_covar_non_lin, desc="Non-linear contribution")
+		else:
+			l = ufloatarray(np.zeros(len(y2)), ymc_covar_non_lin, desc="Non-linear contributions")
+		y2 = y2 + l
+		use_mcprop()
+		if isinstance(ymc, ufloat):
+			use_linprop()
+			y = y2[0]
+		elif isinstance(ymc, ucomplex):
+			use_linprop()
+			y = ucomplex(y2[0], imag=y2[1])
+		elif iscomplexarray(ymc):
+			use_linprop()
+			y = [ucomplex(y2[2 * i], imag=y2[2 * i + 1]) for i in range(len(y2) // 2)]
+			y = np.asarray(y).reshape(np.asarray(ymc).size, order='F')
+		else:
+			use_linprop()
+			y = np.asarray(y2).reshape(np.asarray(ymc).size, order='F')
+		return y
+
 
 class ufloat(object):
 	def __init__(self, value, stdunc=0.0, idof=0.0, id=None, desc=None):
