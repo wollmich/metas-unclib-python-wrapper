@@ -1,4 +1,4 @@
-# Michael Wollensack METAS - 22.01.2019 - 22.02.2023
+# Michael Wollensack METAS - 22.01.2019 - 01.03.2023
 
 import os as _os
 import sys as _sys
@@ -41,6 +41,11 @@ from Metas.UncLib.Core.Ndims import RealNumLib as _RealNumLib
 from Metas.UncLib.Core.Ndims import ComplexNumLib as _ComplexNumLib
 from Metas.UncLib.Core.Unc import InputId as _InputId
 from Metas.UncLib.Core.Unc import GenericUnc as _GenericUnc
+from Metas.UncLib.Core.Unc import StandardNormalDistribution
+from Metas.UncLib.Core.Unc import NormalDistribution
+from Metas.UncLib.Core.Unc import StandardUniformDistribution
+from Metas.UncLib.Core.Unc import UniformDistribution
+from Metas.UncLib.Core.Unc import DistributionFromSamples
 from Metas.UncLib.DistProp import UncNumber as _DistPropUncNumber
 from Metas.UncLib.DistProp import UncList as _DistPropUncList
 from Metas.UncLib.DistProp.Misc import Global as _DistPropGlobal
@@ -281,6 +286,11 @@ def ucomplexarrayfromsamples(samples, id=None, desc=None, p=0.95):
 	id2, desc2 = _input_id_desc(id, desc)
 	d = _UncHelper.ComplexUncNArrayFromSamples(s.Matrix, id2, desc2, p)
 	return _fromnetnarray(d)
+
+def ufloatfromdistribution(distribution, id=None, desc=None):
+	id2, desc2 = _input_id_desc(id, desc)
+	d = _UncHelper.RealUncNumberFromDistribution(distribution, id2, desc2)
+	return _fromnetobject(d)
 
 def get_value(a):
 	return _fromnetobject(_UncHelper.GetValue(_asnetobject(a)))
