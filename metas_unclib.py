@@ -51,6 +51,7 @@ from Metas.UncLib.Core.Unc import TriangularDistribution
 from Metas.UncLib.Core.Unc import ArcSineDistribution
 from Metas.UncLib.Core.Unc import ExponentialDistribution
 from Metas.UncLib.Core.Unc import GammaDistribution
+from Metas.UncLib.Core.Unc import StudentTDistribution
 from Metas.UncLib.Core.Unc import DistributionFromSamples
 from Metas.UncLib.DistProp import UncNumber as _DistPropUncNumber
 from Metas.UncLib.DistProp import UncList as _DistPropUncList
