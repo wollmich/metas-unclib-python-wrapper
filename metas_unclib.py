@@ -1,4 +1,4 @@
-# Michael Wollensack METAS - 22.01.2019 - 01.03.2023
+# Michael Wollensack METAS - 22.01.2019 - 03.03.2023
 
 import os as _os
 import sys as _sys
@@ -45,6 +45,12 @@ from Metas.UncLib.Core.Unc import StandardNormalDistribution
 from Metas.UncLib.Core.Unc import NormalDistribution
 from Metas.UncLib.Core.Unc import StandardUniformDistribution
 from Metas.UncLib.Core.Unc import UniformDistribution
+from Metas.UncLib.Core.Unc import CurvilinearTrapezoidDistribution
+from Metas.UncLib.Core.Unc import TrapezoidalDistribution
+from Metas.UncLib.Core.Unc import TriangularDistribution
+from Metas.UncLib.Core.Unc import ArcSineDistribution
+from Metas.UncLib.Core.Unc import ExponentialDistribution
+from Metas.UncLib.Core.Unc import GammaDistribution
 from Metas.UncLib.Core.Unc import DistributionFromSamples
 from Metas.UncLib.DistProp import UncNumber as _DistPropUncNumber
 from Metas.UncLib.DistProp import UncList as _DistPropUncList
