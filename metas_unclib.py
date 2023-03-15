@@ -1,4 +1,4 @@
-# Michael Wollensack METAS - 22.01.2019 - 06.03.2023
+# Michael Wollensack METAS - 22.01.2019 - 15.03.2023
 
 import os as _os
 import sys as _sys
@@ -257,18 +257,18 @@ def ufloatsystem(value, sys_inputs, sys_sensitivities):
 	d.Init(value2, sys_inputs2, sys_sensitivities2)
 	return ufloat(d)
 
-def ufloatarray(values, covariance, id=None, desc=None):
+def ufloatarray(values, covariance, idof=0.0, id=None, desc=None):
 	v = _asnetnumbernarray(values)
 	cv = _asnetnumbernarray(covariance)
 	id2, desc2 = _input_id_desc(id, desc)
-	d = _UncHelper.RealUncNArray(v, cv.Matrix, id2, desc2)
+	d = _UncHelper.RealUncNArray(v, cv.Matrix, float(idof), id2, desc2)
 	return _fromnetnarray(d)
 
-def ucomplexarray(values, covariance, id=None, desc=None):
+def ucomplexarray(values, covariance, idof=0.0, id=None, desc=None):
 	v = _asnetcomplexnumbernarray(values)
 	cv = _asnetnumbernarray(covariance)
 	id2, desc2 = _input_id_desc(id, desc)
-	d = _UncHelper.ComplexUncNArray(v, cv.Matrix, id2, desc2)
+	d = _UncHelper.ComplexUncNArray(v, cv.Matrix, float(idof), id2, desc2)
 	return _fromnetnarray(d)
 
 def ufloatfromsamples(samples, id=None, desc=None, p=0.95):
@@ -293,6 +293,30 @@ def ucomplexarrayfromsamples(samples, id=None, desc=None, p=0.95):
 	s = _asnetcomplexnumbernarray(samples)
 	id2, desc2 = _input_id_desc(id, desc)
 	d = _UncHelper.ComplexUncNArrayFromSamples(s.Matrix, id2, desc2, p)
+	return _fromnetnarray(d)
+
+def ufloatfromrandomchoices(samples, id=None, desc=None):
+	s = _asnetnumbernarray(samples)
+	id2, desc2 = _input_id_desc(id, desc)
+	d = _UncHelper.RealUncNumberFromRandomChoices(s.Vector, id2, desc2)
+	return _fromnetobject(d)
+
+def ucomplexfromrandomchoices(samples, id=None, desc=None):
+	s = _asnetcomplexnumbernarray(samples)
+	id2, desc2 = _input_id_desc(id, desc)
+	d = _UncHelper.ComplexUncNumberFromRandomChoices(s.Vector, id2, desc2)
+	return _fromnetobject(d)
+
+def ufloatarrayfromrandomchoices(samples, id=None, desc=None):
+	s = _asnetnumbernarray(samples)
+	id2, desc2 = _input_id_desc(id, desc)
+	d = _UncHelper.RealUncNArrayFromRandomChoices(s.Matrix, id2, desc2)
+	return _fromnetnarray(d)
+
+def ucomplexarrayfromrandomchoices(samples, id=None, desc=None):
+	s = _asnetcomplexnumbernarray(samples)
+	id2, desc2 = _input_id_desc(id, desc)
+	d = _UncHelper.ComplexUncNArrayFromRandomChoices(s.Matrix, id2, desc2)
 	return _fromnetnarray(d)
 
 def ufloatfromdistribution(distribution, id=None, desc=None):
@@ -1348,7 +1372,7 @@ class ufloat(object):
 		return ufloat(self._d.Ellipe())
 
 class ucomplex(object):
-	def __init__(self, value, imag=0.0, covariance=None, id=None, desc=None):
+	def __init__(self, value, imag=0.0, covariance=None, idof=0.0, id=None, desc=None):
 		if covariance is None:
 			if iscomplex(value) and imag == 0:
 				if isinstance(value, complex):
@@ -1367,7 +1391,7 @@ class ucomplex(object):
 			v = _Complex[_Number](_Number(_real), _Number(_imag))
 			cv = _asnetnumbernarray(covariance)
 			id2, desc2 = _input_id_desc(id, desc)
-			self._d = _UncHelper.ComplexUncNumber(v, cv.Matrix, id2, desc2)
+			self._d = _UncHelper.ComplexUncNumber(v, cv.Matrix, float(idof), id2, desc2)
 
 	def __getstate__(self):
 		state = ustorage.to_byte_array(self)
