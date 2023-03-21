@@ -1,4 +1,4 @@
-# Michael Wollensack METAS - 22.01.2019 - 20.12.2022
+# Michael Wollensack METAS - 22.01.2019 - 16.03.2023
 
 import os as _os
 import sys as _sys
@@ -21,6 +21,7 @@ _clr.AddReference(_os.path.join(_unclib_path, "Metas.UncLib.MCProp.dll"))
 _clr.AddReference(_os.path.join(_unclib_path, "Metas.UncLib.Optimization.dll"))
 
 from System import Array as _Array
+from System import Byte as _Byte
 from System.Windows.Forms import Form as _Form
 from System.Windows.Forms import DockStyle as _DockStyle
 from System.Drawing import Size as _Size
@@ -40,6 +41,20 @@ from Metas.UncLib.Core.Ndims import RealNumLib as _RealNumLib
 from Metas.UncLib.Core.Ndims import ComplexNumLib as _ComplexNumLib
 from Metas.UncLib.Core.Unc import InputId as _InputId
 from Metas.UncLib.Core.Unc import GenericUnc as _GenericUnc
+from Metas.UncLib.Core.Unc import StandardNormalDistribution
+from Metas.UncLib.Core.Unc import NormalDistribution
+from Metas.UncLib.Core.Unc import StandardUniformDistribution
+from Metas.UncLib.Core.Unc import UniformDistribution
+from Metas.UncLib.Core.Unc import CurvilinearTrapezoidDistribution
+from Metas.UncLib.Core.Unc import TrapezoidalDistribution
+from Metas.UncLib.Core.Unc import TriangularDistribution
+from Metas.UncLib.Core.Unc import ArcSineDistribution
+from Metas.UncLib.Core.Unc import ExponentialDistribution
+from Metas.UncLib.Core.Unc import GammaDistribution
+from Metas.UncLib.Core.Unc import ChiSquaredDistribution
+from Metas.UncLib.Core.Unc import StudentTDistribution
+from Metas.UncLib.Core.Unc import StudentTFromSamplesDistribution
+from Metas.UncLib.Core.Unc import RandomChoicesFromSamples
 from Metas.UncLib.DistProp import UncNumber as _DistPropUncNumber
 from Metas.UncLib.DistProp import UncList as _DistPropUncList
 from Metas.UncLib.DistProp.Misc import Global as _DistPropGlobal
@@ -243,18 +258,18 @@ def ufloatsystem(value, sys_inputs, sys_sensitivities):
 	d.Init(value2, sys_inputs2, sys_sensitivities2)
 	return ufloat(d)
 
-def ufloatarray(values, covariance, id=None, desc=None):
+def ufloatarray(values, covariance, idof=0.0, id=None, desc=None):
 	v = _asnetnumbernarray(values)
 	cv = _asnetnumbernarray(covariance)
 	id2, desc2 = _input_id_desc(id, desc)
-	d = _UncHelper.RealUncNArray(v, cv.Matrix, id2, desc2)
+	d = _UncHelper.RealUncNArray(v, cv.Matrix, float(idof), id2, desc2)
 	return _fromnetnarray(d)
 
-def ucomplexarray(values, covariance, id=None, desc=None):
+def ucomplexarray(values, covariance, idof=0.0, id=None, desc=None):
 	v = _asnetcomplexnumbernarray(values)
 	cv = _asnetnumbernarray(covariance)
 	id2, desc2 = _input_id_desc(id, desc)
-	d = _UncHelper.ComplexUncNArray(v, cv.Matrix, id2, desc2)
+	d = _UncHelper.ComplexUncNArray(v, cv.Matrix, float(idof), id2, desc2)
 	return _fromnetnarray(d)
 
 def ufloatfromsamples(samples, id=None, desc=None, p=0.95):
@@ -280,6 +295,35 @@ def ucomplexarrayfromsamples(samples, id=None, desc=None, p=0.95):
 	id2, desc2 = _input_id_desc(id, desc)
 	d = _UncHelper.ComplexUncNArrayFromSamples(s.Matrix, id2, desc2, p)
 	return _fromnetnarray(d)
+
+def ufloatfromrandomchoices(samples, id=None, desc=None):
+	s = _asnetnumbernarray(samples)
+	id2, desc2 = _input_id_desc(id, desc)
+	d = _UncHelper.RealUncNumberFromRandomChoices(s.Vector, id2, desc2)
+	return _fromnetobject(d)
+
+def ucomplexfromrandomchoices(samples, id=None, desc=None):
+	s = _asnetcomplexnumbernarray(samples)
+	id2, desc2 = _input_id_desc(id, desc)
+	d = _UncHelper.ComplexUncNumberFromRandomChoices(s.Vector, id2, desc2)
+	return _fromnetobject(d)
+
+def ufloatarrayfromrandomchoices(samples, id=None, desc=None):
+	s = _asnetnumbernarray(samples)
+	id2, desc2 = _input_id_desc(id, desc)
+	d = _UncHelper.RealUncNArrayFromRandomChoices(s.Matrix, id2, desc2)
+	return _fromnetnarray(d)
+
+def ucomplexarrayfromrandomchoices(samples, id=None, desc=None):
+	s = _asnetcomplexnumbernarray(samples)
+	id2, desc2 = _input_id_desc(id, desc)
+	d = _UncHelper.ComplexUncNArrayFromRandomChoices(s.Matrix, id2, desc2)
+	return _fromnetnarray(d)
+
+def ufloatfromdistribution(distribution, id=None, desc=None):
+	id2, desc2 = _input_id_desc(id, desc)
+	d = _UncHelper.RealUncNumberFromDistribution(distribution, id2, desc2)
+	return _fromnetobject(d)
 
 def get_value(a):
 	return _fromnetobject(_UncHelper.GetValue(_asnetobject(a)))
@@ -930,7 +974,7 @@ class ustorage(object):
 				x = _RealNArray[_UncNumber]().BinaryDeserialize(filepath)
 			except:
 				try:
-					x = _Complex[_UncNumber]().BinaryDeserialize(filepath)
+					x = _Complex[_UncNumber](0).BinaryDeserialize(filepath)
 				except:
 					try:
 						x = _UncNumber(0).BinaryDeserialize(filepath)
@@ -953,7 +997,7 @@ class ustorage(object):
 				x = _RealNArray[_UncNumber]().XmlDeserialize(filepath)
 			except:
 				try:
-					x = _Complex[_UncNumber]().XmlDeserialize(filepath)
+					x = _Complex[_UncNumber](0).XmlDeserialize(filepath)
 				except:
 					try:
 						x = _UncNumber(0).XmlDeserialize(filepath)
@@ -976,7 +1020,7 @@ class ustorage(object):
 				x = _RealNArray[_UncNumber]().XmlDeserializeFromString(s)
 			except:
 				try:
-					x = _Complex[_UncNumber]().XmlDeserializeFromString(s)
+					x = _Complex[_UncNumber](0).XmlDeserializeFromString(s)
 				except:
 					try:
 						x = _UncNumber(0).XmlDeserializeFromString(s)
@@ -984,6 +1028,99 @@ class ustorage(object):
 						raise Exception("Wrong structure of xml string")
 		x2 = _fromnetobject(x)
 		return x2
+
+	@staticmethod
+	def to_byte_array(x):
+		x2 = _asnetobject(x)
+		return bytes(x2.BinarySerializeToByteArray())
+
+	@staticmethod
+	def from_byte_array(b):
+		b2 = _Array[_Byte](b)
+		try:
+			x = _ComplexNArray[_UncNumber]().BinaryDeserializeFromByteArray(b2)
+		except:
+			try:
+				x = _RealNArray[_UncNumber]().BinaryDeserializeFromByteArray(b2)
+			except:
+				try:
+					x = _Complex[_UncNumber](0).BinaryDeserializeFromByteArray(b2)
+				except:
+					try:
+						x = _UncNumber(0).BinaryDeserializeFromByteArray(b2)
+					except:
+						raise Exception("Wrong structure of byte array")
+		x2 = _fromnetobject(x)
+		return x2
+
+
+class uspecial(object):
+	@staticmethod
+	def linprop2mcprop(x):
+		use_linprop()
+		x_values = get_value(x)
+		x_covariance = get_covariance(x)
+		if isinstance(x, ufloat):
+			use_mcprop()
+			xmc = ufloat(x_values, np.sqrt(x_covariance[0, 0]))
+		elif isinstance(x, ucomplex):
+			use_mcprop()
+			xmc = ucomplex(x_values, covariance=x_covariance)
+		elif iscomplexarray(x):
+			use_mcprop()
+			xmc = ucomplexarray(x_values, x_covariance)
+		else:
+			use_mcprop()
+			xmc = ufloatarray(x_values, x_covariance)
+		return xmc
+	
+	@staticmethod
+	def mcprop2linprop(ymc, xmc, x):
+		use_mcprop()
+		ymc2 = _fromnetnarray(_asnetnarray(_asunclist(ymc).data))
+		xmc2 = _fromnetnarray(_asnetnarray(_asunclist(xmc).data))
+		use_linprop()
+		x2 = _fromnetnarray(_asnetnarray(_asunclist(x).data))
+		xmc2sub = []
+		x2sub = []
+		for i in range(x2.size):
+			if get_stdunc(x2[i]) > 0:
+				xmc2sub.append(xmc2[i])
+				x2sub.append(x2[i])
+		use_mcprop()
+		xmc_values = get_value(xmc2sub)
+		xmc_covar = get_covariance(xmc2sub)
+		ymc_values = get_value(ymc2)
+		ymc_covar = get_covariance(ymc2)
+		ymc_xmc_jacobi = get_jacobi2(ymc2, xmc2sub)
+		use_linprop()
+		x_covar = get_covariance(x2sub)
+		xmc_x_jacobi = np.dot(np.linalg.cholesky(xmc_covar), np.linalg.inv(np.linalg.cholesky(x_covar)))
+		x3 = [ufloatsystem(get_value(xmc_values[i]), x2sub, xmc_x_jacobi[i, :]) for i in range(len(x2sub))]
+		y2 = [ufloatsystem(get_value(ymc_values[i]), x3, ymc_xmc_jacobi[i, :]) for i in range(ymc_values.size)]
+		# Add non-linear contributions
+		ymc_covar_lin = get_covariance(y2)
+		ymc_covar_non_lin = ymc_covar - ymc_covar_lin
+		if len(y2) == 1:
+			l = ufloatarray(np.zeros(len(y2)), ymc_covar_non_lin, desc="Non-linear contribution")
+		else:
+			l = ufloatarray(np.zeros(len(y2)), ymc_covar_non_lin, desc="Non-linear contributions")
+		y2 = y2 + l
+		use_mcprop()
+		if isinstance(ymc, ufloat):
+			use_linprop()
+			y = y2[0]
+		elif isinstance(ymc, ucomplex):
+			use_linprop()
+			y = ucomplex(y2[0], imag=y2[1])
+		elif iscomplexarray(ymc):
+			use_linprop()
+			y = [ucomplex(y2[2 * i], imag=y2[2 * i + 1]) for i in range(len(y2) // 2)]
+			y = np.asarray(y).reshape(np.asarray(ymc).size, order='F')
+		else:
+			use_linprop()
+			y = np.asarray(y2).reshape(np.asarray(ymc).size, order='F')
+		return y
 
 
 class ufloat(object):
@@ -1002,6 +1139,14 @@ class ufloat(object):
 			self._d = value._d
 		else:
 			raise Exception("Unknown arguments")
+
+	def __getstate__(self):
+		state = ustorage.to_byte_array(self)
+		return state
+
+	def __setstate__(self, state):
+		loaded = ustorage.from_byte_array(state)
+		self._d = loaded._d
 
 	def __repr__(self):
 		return str(self.value) + _pm + str(self.stdunc)
@@ -1228,7 +1373,7 @@ class ufloat(object):
 		return ufloat(self._d.Ellipe())
 
 class ucomplex(object):
-	def __init__(self, value, imag=0.0, covariance=None, id=None, desc=None):
+	def __init__(self, value, imag=0.0, covariance=None, idof=0.0, id=None, desc=None):
 		if covariance is None:
 			if iscomplex(value) and imag == 0:
 				if isinstance(value, complex):
@@ -1247,7 +1392,15 @@ class ucomplex(object):
 			v = _Complex[_Number](_Number(_real), _Number(_imag))
 			cv = _asnetnumbernarray(covariance)
 			id2, desc2 = _input_id_desc(id, desc)
-			self._d = _UncHelper.ComplexUncNumber(v, cv.Matrix, id2, desc2)
+			self._d = _UncHelper.ComplexUncNumber(v, cv.Matrix, float(idof), id2, desc2)
+
+	def __getstate__(self):
+		state = ustorage.to_byte_array(self)
+		return state
+
+	def __setstate__(self, state):
+		loaded = ustorage.from_byte_array(state)
+		self._d = loaded._d
 
 	def __repr__(self):
 		return str(self.value) + _pm + str(self.stdunc)
