@@ -1148,7 +1148,7 @@ class ufloat(object):
 			(type(value) is _Real[_UncNumber]) |
 			isinstance(value, ufloat)
 		)
-  
+
 	def __getstate__(self):
 		state = ustorage.to_byte_array(self)
 		return state
