@@ -1,4 +1,4 @@
-# Michael Wollensack METAS - 22.01.2019 - 06.04.2023
+# Michael Wollensack METAS - 22.01.2019 - 25.05.2023
 
 import os as _os
 import sys as _sys
@@ -19,6 +19,10 @@ _clr.AddReference(_os.path.join(_unclib_path, "Metas.UncLib.DistProp.dll"))
 _clr.AddReference(_os.path.join(_unclib_path, "Metas.UncLib.LinProp.dll"))
 _clr.AddReference(_os.path.join(_unclib_path, "Metas.UncLib.MCProp.dll"))
 _clr.AddReference(_os.path.join(_unclib_path, "Metas.UncLib.Optimization.dll"))
+
+if _sys.platform == 'win32':
+	from ctypes import windll as _windll
+	_windll.shcore.SetProcessDpiAwareness(1)
 
 from System import Array as _Array
 from System import Byte as _Byte
@@ -70,6 +74,7 @@ from Metas.UncLib.LinProp import UncNumerical as _UncNumerical
 from Metas.UncLib.LinProp import UnknownIdDecoderDelegate as _UnknownIdDecoderDelegate
 from Metas.UncLib.LinProp.Gui import GuiUncBudget as _GuiUncBudget
 from Metas.UncLib.LinProp.Gui import GuiUncListBudget as _GuiUncListBudget
+from Metas.UncLib.LinProp.Gui import HighDPIHelper as _HighDPIHelper
 from Metas.UncLib.MCProp import UncNumber as _MCPropUncNumber
 from Metas.UncLib.MCProp import UncList as _MCPropUncList
 from Metas.UncLib.MCProp.Misc import Global as _MCPropGlobal
@@ -243,7 +248,7 @@ def unc_budget(a, format=None, name=None, infos=None):
 	c.Dock = _DockStyle.Fill
 	f = _Form()
 	f.Text = name2
-	f.Size = _Size(640, 480)
+	f.Size = _Size(_HighDPIHelper.ScaleValueX(640), _HighDPIHelper.ScaleValueY(480))
 	f.Controls.Add(c)
 	f.ShowDialog()
 
