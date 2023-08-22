@@ -1,4 +1,4 @@
-# Michael Wollensack METAS - 22.01.2019 - 25.05.2023
+# Michael Wollensack METAS - 22.01.2019 - 22.08.2023
 
 import os as _os
 import sys as _sys
@@ -65,6 +65,8 @@ from Metas.UncLib.DistProp.Misc import Global as _DistPropGlobal
 from Metas.UncLib.LinProp import UncNumber as _LinPropUncNumber
 from Metas.UncLib.LinProp import UncList as _LinPropUncList
 from Metas.UncLib.LinProp.Misc import Global as _LinPropGlobal
+from Metas.UncLib.LinProp.Misc import DofModeType
+from Metas.UncLib.LinProp.Misc import FromSamplesModeType
 from Metas.UncLib.LinProp.Ndims import RealUncLinAlg as _RealUncLinAlg
 from Metas.UncLib.LinProp.Ndims import ComplexUncLinAlg as _ComplexUncLinAlg
 from Metas.UncLib.LinProp.Ndims import RealUncNumLib as _RealUncNumLib
@@ -95,13 +97,15 @@ def use_distprop(maxlevel=1):
 	_UncHelper = _GenericUnc[_UncList, _UncNumber]()
 	_DistPropGlobal.MaxLevel = int(maxlevel)
 
-def use_linprop():
+def use_linprop(dofmode=DofModeType.WelchSatterthwaite, fromsamplesmode=FromSamplesModeType.ExpandInputCovariance):
 	global _UncNumber
 	global _UncList
 	global _UncHelper
 	_UncNumber = _LinPropUncNumber
 	_UncList = _LinPropUncList
 	_UncHelper = _GenericUnc[_UncList, _UncNumber]()
+	_LinPropGlobal.DofMode = dofmode
+	_LinPropGlobal.FromSamplesMode = fromsamplesmode
 
 def use_mcprop(n=100000):
 	global _UncNumber
