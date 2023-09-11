@@ -5,6 +5,15 @@ For METAS UncLib see
 - <https://www.metas.ch/unclib>
 - <https://pypi.org/project/metas-unclib/>
 
+## Requirements
+- numpy
+- pythonnet
+- on *Linux* and *macOS*: [Mono .NET framework](https://www.mono-project.com)
+
+## Installation
+
+`pip install numpy pythonnet metas_unclib`
+
 ## Tutorial Notebook
 
 - [METAS UncLib Python Tutorial](jupyter_notebooks/metas_unclib_python_tutorial.ipynb)
