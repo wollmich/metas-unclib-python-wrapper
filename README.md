@@ -8,7 +8,7 @@ For METAS UncLib see
 ## Requirements
 - numpy
 - pythonnet
-- on *macOS*: [Mono .NET framework](https://www.mono-project.com)
+- on *Linux* and *macOS*: [Mono .NET framework](https://www.mono-project.com)
 
 ## Installation
 
