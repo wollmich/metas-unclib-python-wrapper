@@ -231,7 +231,7 @@ def _input_id_desc(id=None, desc=None):
 		desc2 = ''
 	return id2, desc2
 
-def unc_budget(unc_item):
+def unc_budget(unc_item, format=None, name=None, infos=None):
 	tree = _LinPropUncBudget.ComputeTreeUncBudget(unc_item.net_object)
 
 	data = np.zeros((len(tree) + 1, 2))
