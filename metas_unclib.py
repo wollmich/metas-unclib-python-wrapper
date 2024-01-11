@@ -64,6 +64,7 @@ from Metas.UncLib.DistProp import UncList as _DistPropUncList
 from Metas.UncLib.DistProp.Misc import Global as _DistPropGlobal
 from Metas.UncLib.LinProp import UncNumber as _LinPropUncNumber
 from Metas.UncLib.LinProp import UncList as _LinPropUncList
+from Metas.UncLib.LinProp import UncBudget as _LinPropUncBudget
 from Metas.UncLib.LinProp.Misc import Global as _LinPropGlobal
 from Metas.UncLib.LinProp.Misc import DofModeType
 from Metas.UncLib.LinProp.Misc import FromSamplesModeType
@@ -230,32 +231,41 @@ def _input_id_desc(id=None, desc=None):
 		desc2 = ''
 	return id2, desc2
 
+def unc_budget(unc_item):
+	tree = _LinPropUncBudget.ComputeTreeUncBudget(unc_item.net_object)
 
-def unc_budget(a, format=None, name=None, infos=None):
-	b = _asunclist(a)
-	if len(b.data) == 1:
-		c = _GuiUncBudget()
-	else:
-		c = _GuiUncListBudget()
-	if format is not None:
-		c.Format = format
-	if name is None:
-		name2 = ''
-	else:
-		name2 = name
-	if infos is not None:
-		c.Infos = [info + '\n' for info in infos]
-	if len(b.data) == 1:
-		c.Value = b.data[0]
-	else:
-		c.Values = b
-	c.Dock = _DockStyle.Fill
-	f = _Form()
-	f.Text = name2
-	f.Size = _Size(_HighDPIHelper.ScaleValueX(640), _HighDPIHelper.ScaleValueY(480))
-	f.Controls.Add(c)
-	f.ShowDialog()
+	data = np.zeros((len(tree) + 1, 2))
+	desc = [""]*(len(tree) + 1)
 
+	desc[0] = "SUMMARY"
+	data[0] = (
+		unc_item.stdunc,
+		100.,
+	)
+
+	for i, elem in enumerate(tree):
+		data[i + 1] = (
+			elem.get_UncComponent(),
+			elem.get_UncPercentage(),
+		)
+		desc[i + 1] = elem.get_Description()
+
+	try:
+		# render pandas.DataFrame
+		import pandas as pd
+		return pd.DataFrame(columns=("description", "unc component", "unc / %"), data={
+			"description": desc,
+			"unc component": data[:,0],
+			"unc / %": data[:,1],
+		}).sort_values("unc / %", ascending=False)
+
+	# fallback if pandas not installed
+	except ModuleNotFoundError:
+		print("unc component | unc / %	| label")
+		print("--------------|------------|--------------")
+		for label, (component, percent) in zip(desc, data):
+			print("{:.4E}    | {:.4E} | {}".format(component, percent, label))
+	return data, desc
 
 def ufloatsystem(value, sys_inputs, sys_sensitivities):
 	if _UncNumber is not _LinPropUncNumber:
