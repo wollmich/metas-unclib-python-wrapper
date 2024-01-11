@@ -9,6 +9,7 @@ For METAS UncLib see
 - numpy
 - pythonnet
 - on *Linux* and *macOS*: [Mono .NET framework](https://www.mono-project.com)
+- optional: pandas (for unc_budget rendering)
 
 ## Installation
 
