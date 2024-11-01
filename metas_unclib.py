@@ -1,4 +1,4 @@
-# Michael Wollensack METAS - 22.01.2019 - 22.08.2023
+# Michael Wollensack METAS - 22.01.2019 - 22.10.2024
 
 import os as _os
 import sys as _sys
@@ -116,9 +116,11 @@ def use_mcprop(n=100000):
 	_MCPropGlobal.n = int(n)
 	_UncHelper = _GenericUnc[_UncList, _UncNumber]()
 
-def _asnetobject(a, forcecomplex=False):
+def _asnetobject(a, forcecomplex=False, forcecomplexifnegative=False):
 	if isinstance(a, ufloat):
 		if forcecomplex:
+			b = ucomplex(a).net_object
+		elif forcecomplexifnegative and get_fcn_value(a) < 0:
 			b = ucomplex(a).net_object
 		else:
 			b = a.net_object
@@ -127,12 +129,14 @@ def _asnetobject(a, forcecomplex=False):
 	elif isinstance(a, float):
 		if forcecomplex:
 			b = ucomplex(a).net_object
+		elif forcecomplexifnegative and a < 0:
+			b = ucomplex(a).net_object
 		else:
 			b = ufloat(a).net_object
 	elif isinstance(a, complex):
 		b = ucomplex(a).net_object
 	else:
-		b = _asnetnarray(a, forcecomplex)
+		b = _asnetnarray(a, forcecomplex, forcecomplexifnegative)
 	return b
 
 def _fromnetobject(a):
@@ -153,11 +157,14 @@ def _asunclist(a):
 	c = _UncList()
 	return c.op_Implicit(b)
 
-def _asnetnarray(a, complexarray=False):
+def _asnetnarray(a, complexarray=False, complexarrayifnegative=False):
 	b = np.asarray(a)
 	s = b.shape
 	s2 = _Array[int](s)
 	if complexarray or iscomplexarray(b):
+		c = [ucomplex(bi).net_object for bi in b.flatten('F')]
+		d = _ComplexNArray[_UncNumber]()
+	elif complexarrayifnegative and any([get_fcn_value(ufloat(bi)) < 0 for bi in b.flatten('F')]):
 		c = [ucomplex(bi).net_object for bi in b.flatten('F')]
 		d = _ComplexNArray[_UncNumber]()
 	else:
@@ -410,11 +417,11 @@ class umath(object):
 
 	@staticmethod
 	def log(a):
-		return _fromnetobject(_asnetobject(a).Log())
+		return _fromnetobject(_asnetobject(a, forcecomplexifnegative=True).Log())
 
 	@staticmethod
 	def log10(a):
-		return _fromnetobject(_asnetobject(a).Log10())
+		return _fromnetobject(_asnetobject(a, forcecomplexifnegative=True).Log10())
 
 	@staticmethod
 	def pow(a, b):
@@ -422,7 +429,7 @@ class umath(object):
 
 	@staticmethod
 	def sqrt(a):
-		return _fromnetobject(_asnetobject(a).Sqrt())
+		return _fromnetobject(_asnetobject(a, forcecomplexifnegative=True).Sqrt())
 
 	@staticmethod
 	def sin(a):
@@ -1309,6 +1316,8 @@ class ufloat(object):
 			return np.asarray(self) ** other
 		elif type(other) is int:
 			return ufloat(self._d.Pow(other))
+		elif get_fcn_value(self) < 0:
+			return ucomplex(self) ** other
 		elif ufloat._is_convertible(other):
 			return ufloat(self._d.Pow(ufloat(other)._d))
 		else:
@@ -1334,16 +1343,25 @@ class ufloat(object):
 		return ufloat(self._d.Exp())
 
 	def log(self):
-		return ufloat(self._d.Log())
+		if get_fcn_value(self) < 0:
+			return ucomplex(self).log()
+		else:
+			return ufloat(self._d.Log())
 
 	def log10(self):
-		return ufloat(self._d.Log10())
+		if get_fcn_value(self) < 0:
+			return ucomplex(self).log10()
+		else:
+			return ufloat(self._d.Log10())
 
 	def pow(self, other):
 		return self**other
 
 	def sqrt(self):
-		return ufloat(self._d.Sqrt())
+		if get_fcn_value(self) < 0:
+			return ucomplex(self).sqrt()
+		else:
+			return ufloat(self._d.Sqrt())
 
 	def sin(self):
 		return ufloat(self._d.Sin())
