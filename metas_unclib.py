@@ -1,4 +1,4 @@
-# Michael Wollensack METAS - 22.01.2019 - 23.04.2025
+# Michael Wollensack METAS - 22.01.2019 - 24.04.2025
 
 import os as _os
 import sys as _sys
@@ -263,6 +263,29 @@ def unc_budget(a, format=None, name=None, infos=None):
     f.Controls.Add(c)
     f.ShowDialog()
 
+def text_unc_budget(a, showId=False, showDetail=True, showDof=False, format="f6", sep="  "):
+    if _UncNumber is not _LinPropUncNumber:
+        raise Exception("Text uncertainty budget supports only LinProp uncertainty objects")
+    b = _asunclist(a)
+    if len(b.data) != 1:
+        raise Exception("Text uncertainty budget supports only a single LinProp uncertainty object")
+    t = b.data[0].TextUncBudget(showId, showDetail, showDof, format, sep)
+    return t
+
+def print_text_unc_budget(a, showId=False, showDetail=True, showDof=False, format="f6", sep="  "):
+    print(text_unc_budget(a, showId, showDetail, showDof, format, sep))
+
+def text_histogram(a, nbins=80, nlines=24, fillchar='X'):
+    if _UncNumber is not _MCPropUncNumber:
+        raise Exception("Text histogram supports only MCProp uncertainty objects")
+    b = _asunclist(a)
+    if len(b.data) != 1:
+        raise Exception("Text histogram supports only a single MCProp uncertainty object")
+    t = b.data[0].TextHistogram(nbins, nlines, fillchar)
+    return t
+
+def print_text_histogram(a, nbins=80, nlines=24, fillchar='X'):
+    print(text_histogram(a, nbins, nlines, fillchar))
 
 def ufloatsystem(value, sys_inputs, sys_sensitivities):
     if _UncNumber is not _LinPropUncNumber:
