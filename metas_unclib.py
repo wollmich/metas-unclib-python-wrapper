@@ -1,4 +1,4 @@
-# Michael Wollensack METAS - 22.01.2019 - 24.04.2025
+# Michael Wollensack METAS - 22.01.2019 - 24.06.2025
 
 import os as _os
 import sys as _sys
@@ -35,6 +35,7 @@ from Metas.UncLib.Core import Complex as _Complex
 from Metas.UncLib.Core import Const2014 as _Const2014
 from Metas.UncLib.Core import Const2014_90 as _Const2014_90
 from Metas.UncLib.Core import Const2018 as _Const2018
+from Metas.UncLib.Core import Const2022 as _Const2022
 from Metas.UncLib.Core import Math as _Math
 from Metas.UncLib.Core import SplineBoundary
 from Metas.UncLib.Core.Ndims import RealNArray as _RealNArray
@@ -2034,6 +2035,140 @@ class _uconst2018(_const2018):
         "Molar mass _uconstant / (kg/mol)"
         return ufloat(self._uconst.Mu)
 
+class _const2022(object):
+    "Physical Constants CODATA 2022"
+
+    @property
+    def _const(self):
+        return _Const2022
+
+    @property
+    def deltavCs(self):
+        "Hyperfine transition frequency of Cs-133 / Hz"
+        return self._const.deltavCs
+
+    @property
+    def c0(self):
+        "Speed of light in vacuum / (m/s)"
+        return self._const.c0
+
+    @property
+    def h(self):
+        "Planck _constant / Js"
+        return self._const.h
+
+    @property
+    def e(self):
+        "Elementary charge / C"
+        return self._const.e
+
+    @property
+    def k(self):
+        "Boltzmann _constant / (J/K)"
+        return self._const.k
+
+    @property
+    def Na(self):
+        "Avogadro _constant / (1/mol)"
+        return self._const.Na
+
+    @property
+    def Kcd(self):
+        "Luminous efficacy / (lm/W)"
+        return self._const.Kcd
+
+    @property
+    def Kj(self):
+        "Josephson _constant / (Hz/V)"
+        return self._const.Kj
+
+    @property
+    def Rk(self):
+        "von Klitzing _constant / Ohm"
+        return self._const.Rk
+
+    @property
+    def F(self):
+        "Faraday _constant / (C/mol)"
+        return self._const.F
+
+    @property
+    def R(self):
+        "Molar gas _constant / (J/(mol*K))"
+        return self._const.R
+
+    @property
+    def eV(self):
+        "Electron volt / J"
+        return self._const.eV
+
+class _uconst2022(_const2022):
+    "Physical Constants CODATA 2022"
+
+    @property
+    def _uconst(self):
+        return _Const2022[_UncNumber]
+
+    @property
+    def G(self):
+        "Newtonian _uconstant of gravitation / (m^3/(kg*s^2))"
+        return ufloat(self._uconst.G)
+
+    @property
+    def alpha(self):
+        "Fine-structure _uconstant"
+        return ufloat(self._uconst.alpha)
+
+    @property
+    def mu0(self):
+        "Vacuum magnetic permeability / (Vs/Am)"
+        return ufloat(self._uconst.mu0)
+
+    @property
+    def ep0(self):
+        "Vacuum electric permittivity / (As/Vm)"
+        return ufloat(self._uconst.ep0)
+
+    @property
+    def Ryd(self):
+        "Rydberg _uconstant / (1/m)"
+        return ufloat(self._uconst.Ryd)
+
+    @property
+    def me(self):
+        "Electron mass / kg"
+        return ufloat(self._uconst.me)
+
+    @property
+    def are(self):
+        "Electron relative atomic mass"
+        return ufloat(self._uconst.are)
+
+    @property
+    def arp(self):
+        "Proton relative atomic mass"
+        return ufloat(self._uconst.arp)
+
+    @property
+    def mpsme(self):
+        "Proton-electron mass ratio"
+        return ufloat(self._uconst.mpsme)
+
+    @property
+    def mp(self):
+        "Proton mass / kg"
+        return ufloat(self._uconst.mp)
+
+    @property
+    def u(self):
+        "Atomic mass _uconstant / kg"
+        return ufloat(self._uconst.u)
+
+    @property
+    def Mu(self):
+        "Molar mass _uconstant / (kg/mol)"
+        return ufloat(self._uconst.Mu)
+
 
 uconst2014 = _uconst2014()
 "Physical Constants CODATA 2014"
@@ -2044,5 +2179,8 @@ uconst2014_90 = _uconst2014_90()
 uconst2018 = _uconst2018()
 "Physical Constants CODATA 2018"
 
-uconst = _uconst2018()
+uconst2022 = _uconst2022()
+"Physical Constants CODATA 2022"
+
+uconst = _uconst2022()
 "Newest Physical Constants"
