@@ -1,4 +1,4 @@
-# Michael Wollensack METAS - 22.01.2019 - 24.06.2025
+# Michael Wollensack METAS - 22.01.2019 - 12.09.2025
 
 import os as _os
 import sys as _sys
@@ -565,6 +565,22 @@ class umath(object):
         if (iscomplex(a) | iscomplexarray(a)):
             raise Exception("Input must be real")
         return _fromnetobject(_asnetobject(a).Ellipe())
+    
+    @staticmethod
+    def ellippi(n, m):
+        if (iscomplex(n) | iscomplexarray(n)):
+            raise Exception("Input n must be real")
+        elif (iscomplex(m) | iscomplexarray(m)):
+            raise Exception("Input m must be real")
+        elif (isinstance(n, (list, np.ndarray)) and not isinstance(m, (list, np.ndarray))):
+            n2 = np.asarray(n)
+            m2 = np.full_like(n2, m)
+            return umath.ellippi(n2, m2)
+        elif (not isinstance(n, (list, np.ndarray)) and isinstance(m, (list, np.ndarray))):
+            m2 = np.asarray(m)
+            n2 = np.full_like(m2, n)
+            return umath.ellippi(n2, m2)
+        return _fromnetobject(_asnetobject(n).Ellippi(_asnetobject(m)))
 
 
 class ulinalg(object):
@@ -1455,6 +1471,9 @@ class ufloat(object):
 
     def ellipe(self):
         return ufloat(self._d.Ellipe())
+
+    def ellippi(self, other):
+        return ufloat(self._d.Ellippi(ufloat(other)._d))
 
 class ucomplex(object):
     def __init__(self, value, imag=0.0, covariance=None, idof=0.0, id=None, desc=None):
