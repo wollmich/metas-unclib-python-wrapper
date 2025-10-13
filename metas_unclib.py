@@ -1,4 +1,4 @@
-# Michael Wollensack METAS - 22.01.2019 - 12.09.2025
+# Michael Wollensack METAS - 22.01.2019 - 13.10.2025
 
 import os as _os
 import sys as _sys
@@ -74,6 +74,8 @@ from Metas.UncLib.LinProp.Ndims import RealUncNumLib as _RealUncNumLib
 from Metas.UncLib.LinProp.Ndims import ComplexUncNumLib as _ComplexUncNumLib
 from Metas.UncLib.LinProp import NumericalFunctionDelegate as _NumericalFunctionDelegate
 from Metas.UncLib.LinProp import UncNumerical as _UncNumerical
+from Metas.UncLib.LinProp.Ndims import RealUncOdeSolver as _RealUncOdeSolver
+from Metas.UncLib.LinProp import OdeFunction2 as _OdeFunction2
 from Metas.UncLib.LinProp import UnknownIdDecoderDelegate as _UnknownIdDecoderDelegate
 from Metas.UncLib.LinProp.Gui import GuiUncBudget as _GuiUncBudget
 from Metas.UncLib.LinProp.Gui import GuiUncListBudget as _GuiUncListBudget
@@ -981,6 +983,28 @@ class unumlib(object):
         y2 = func(x2)
         y = _asnetdoublearray(y2)
         return y
+
+    @staticmethod
+    def ode_solver(y, x, p, eps, ode_func):
+        if _UncNumber is not _LinPropUncNumber:
+            raise Exception("ODE solver supports only LinProp uncertainty objects")
+        y2 = _asnetnarray(y)
+        x2 = _asnetnarray(x)
+        p2 = _asnetnarray(p)
+        ode_func2 = _OdeFunction2(lambda _y, _x, _p, _dy: unumlib._ode_function2(ode_func, _y, _x, _p, _dy))
+        ytbl = _RealUncOdeSolver[_UncNumber].Solve(y2, x2, p2, eps, ode_func2)
+        ytbl2 = _fromnetnarray(ytbl)
+        return ytbl2
+
+    @staticmethod
+    def _ode_function2(func, y, x, p, dy):
+        y2 = np.asarray([float(yi) for yi in y])
+        x2 = float(x)
+        p2 = np.asarray([float(pi) for pi in p])
+        dy2 = np.asarray([float(dyi) for dyi in dy])
+        func(y2, x2, p2, dy2)
+        for i in range(len(dy)):
+            dy[i] = dy2[i]
 
     @staticmethod
     def optimizer(func, xstart, p, covarianceweighting=True, weights=None, bndl=None, bndu=None, epsx=0.0, algorithm=OptimizerAlgorithm.LevenbergMarquardt):
