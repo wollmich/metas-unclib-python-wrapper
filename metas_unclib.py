@@ -1,4 +1,4 @@
-# Michael Wollensack METAS - 22.01.2019 - 13.10.2025
+# Michael Wollensack METAS - 22.01.2019 - 14.10.2025
 
 import os as _os
 import sys as _sys
@@ -583,6 +583,12 @@ class umath(object):
             n2 = np.full_like(m2, n)
             return umath.ellippi(n2, m2)
         return _fromnetobject(_asnetobject(n).Ellippi(_asnetobject(m)))
+
+    @staticmethod
+    def erf(a):
+        if (iscomplex(a) | iscomplexarray(a)):
+            raise Exception("Input must be real")
+        return _fromnetobject(_asnetobject(a).Erf())
 
 
 class ulinalg(object):
