@@ -1,4 +1,4 @@
-# Michael Wollensack METAS - 22.01.2019 - 14.10.2025
+# Michael Wollensack METAS - 22.01.2019 - 15.10.2025
 
 import os as _os
 import sys as _sys
@@ -918,6 +918,18 @@ class unumlib(object):
             z2 = _RealNumLib[_UncNumber].SplineIntegrate2(x2, y2, startboundary, sd, endboundary, ed)
             z = ufloat(z2)
         return z
+
+    @staticmethod
+    def gradient(f, x):
+        complexarray = iscomplexarray(f)
+        f2 = _asnetnarray(f, complexarray)
+        x2 = _asnetdoublearray(x)
+        if complexarray:
+            g2 = _ComplexNumLib[_UncNumber].Gradient(f2, x2)
+        else:
+            g2 = _RealNumLib[_UncNumber].Gradient(f2, x2)
+        g = _fromnetnarray(g2)
+        return g
 
     @staticmethod
     def fft(x):
