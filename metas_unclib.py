@@ -1,4 +1,4 @@
-# Michael Wollensack METAS - 22.01.2019 - 11.11.2025
+# Michael Wollensack METAS - 22.01.2019 - 13.03.2026
 
 import os as _os
 import sys as _sys
@@ -1229,7 +1229,7 @@ class uspecial(object):
 
 class ufloat(object):
     def __init__(self, value, stdunc=0.0, idof=0.0, id=None, desc=None):
-        if isinstance(value, (int, float)):
+        if isinstance(value, (int, float, np.integer, np.floating)):
             if stdunc != 0:
                 id2, desc2 = _input_id_desc(id, desc)
                 self._d = _UncNumber(float(value), float(stdunc), float(idof), id2, desc2)
@@ -1247,7 +1247,7 @@ class ufloat(object):
     @staticmethod
     def _is_convertible(value):
         return (
-            isinstance(value, (int, float)) |
+            isinstance(value, (int, float, np.integer, np.floating)) |
             (type(value) is _UncNumber) |
             (type(value) is _Real[_UncNumber]) |
             isinstance(value, ufloat)
