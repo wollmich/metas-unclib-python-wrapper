@@ -1,4 +1,4 @@
-# Michael Wollensack METAS - 22.01.2019 - 13.03.2026
+# Michael Wollensack METAS - 22.01.2019 - 15.04.2026
 
 import os as _os
 import sys as _sys
@@ -1526,7 +1526,9 @@ class ufloat(object):
 class ucomplex(object):
     def __init__(self, value, imag=0.0, covariance=None, idof=0.0, id=None, desc=None):
         if covariance is None:
-            if iscomplex(value) and imag == 0:
+            if iscomplex(value) and imag != 0:
+                raise Exception("A complex value was provided while the `imag` parameter was also set")
+            elif iscomplex(value) and imag == 0:
                 if isinstance(value, complex):
                     self._d = _Complex[_UncNumber](_UncNumber(value.real), _UncNumber(value.imag))
                 elif type(value) is _Complex[_UncNumber]:
@@ -1538,8 +1540,14 @@ class ucomplex(object):
                 _imag = ufloat(imag)
                 self._d = _Complex[_UncNumber](_real.net_object, _imag.net_object)
         else:
-            _real = complex(value).real
-            _imag = complex(value).imag + imag
+            if iscomplex(value) and imag != 0:
+                raise Exception("A complex value was provided while the `imag` parameter was also set")
+            elif iscomplex(value) and imag == 0:
+                _real = complex(value).real
+                _imag = complex(value).imag
+            else:
+                _real = value
+                _imag = imag
             v = _Complex[_Number](_Number(_real), _Number(_imag))
             cv = _asnetnumbernarray(covariance)
             id2, desc2 = _input_id_desc(id, desc)
